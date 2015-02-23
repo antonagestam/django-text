@@ -21,5 +21,8 @@ class MarkdownEditorWidget(forms.widgets.Textarea):
             attrs = {}
         if 'class' not in attrs:
             attrs['class'] = ''
-        attrs['class'] += ' editable'
-        return super(MarkdownEditorWidget, self).render(name, value, attrs)
+        attrs['class'] += ' markdown'
+        textarea = super(MarkdownEditorWidget, self).render(name, value, attrs)
+        template = Template('text/markdown_editor_widget.html')
+        context = Context({'textarea': textarea})
+        return mark_safe(template.render(context))
