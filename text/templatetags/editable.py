@@ -1,7 +1,5 @@
 from django import template
 
-import markdown
-
 from ..models import Text
 
 register = template.Library()
@@ -13,10 +11,10 @@ class TextNode(template.Node):
 
     def render(self, context):
         try:
-            text = Text.objects.get(name=self.text_name).body
+            text = Text.objects.get(name=self.text_name)
         except Text.DoesNotExist:
             text = self.text_name
-        return markdown.markdown(text, output_format='html5')
+        return text.render()
 
 
 @register.tag(name='editable')
