@@ -1,6 +1,7 @@
 from django import forms
 from django.utils.safestring import mark_safe
-from django.template import Context, Template
+from django.template import Context
+from django.template.loader import get_template
 
 
 class MarkdownEditorWidget(forms.widgets.Textarea):
@@ -23,6 +24,6 @@ class MarkdownEditorWidget(forms.widgets.Textarea):
             attrs['class'] = ''
         attrs['class'] += ' markdown'
         textarea = super(MarkdownEditorWidget, self).render(name, value, attrs)
-        template = Template('text/markdown_editor_widget.html')
+        template = get_template('text/markdown_editor_widget.html')
         context = Context({'textarea': textarea})
         return mark_safe(template.render(context))
