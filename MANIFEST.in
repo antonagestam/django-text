@@ -1,4 +1,4 @@
 include README.md
 include LICENSE
-recursive-include debug_toolbar/static *
-recursive-include debug_toolbar/templates *
+recursive-include text/static *
+recursive-include text/templates *
