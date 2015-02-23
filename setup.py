@@ -6,7 +6,7 @@ from setuptools import find_packages
 setup(
     name='django-text',
     description='django-text',
-    version='1.0.0',
+    version='1.0.1',
     long_description=open('README.md').read(),
     author='Anton Agestam',
     author_email='msn@antonagestam.se',
