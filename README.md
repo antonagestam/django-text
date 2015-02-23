@@ -4,6 +4,12 @@ Edit content in the Django Admin.
 
 ## Installation and usage
 
+Install the package with pip.
+
+```shell
+$ pip install django-text
+```
+
 Add `'text'` to your installed packages.
 
 ```python
