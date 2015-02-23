@@ -11,7 +11,10 @@ class MarkdownEditorWidget(forms.widgets.Textarea):
                 'text/bundle/medium-editor-3.0.0/css/themes/default.min.css',
             )
         }
-        js = ('text/bundle/medium-editor-3.0.0/js/medium-editor.min.js', )
+        js = (
+            'text/bundle/medium-editor-3.0.0/js/medium-editor.min.js',
+            'text/bundle/medium-editor-markdown-1.1.0/me-markdown.standalone.min.js',
+        )
 
     def render(self, name, value, attrs=None):
         if not attrs:
