@@ -6,7 +6,7 @@ from .widgets import MarkdownEditorWidget
 
 
 class TextAdmin(admin.ModelAdmin):
-    list_display = ('name', )
+    list_display = ('name', 'language', )
     formfield_overrides = {
         models.TextField: {'widget': MarkdownEditorWidget},
     }
