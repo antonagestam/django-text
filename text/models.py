@@ -15,7 +15,10 @@ class Text(models.Model):
     name = models.CharField(max_length=50, db_index=True)
     body = models.TextField()
     type = models.IntegerField(choices=TYPES, blank=False, default=TYPE_TEXT)
-    language = models.CharField(choices=settings.LANGUAGES, max_length=5)
+    language = models.CharField(
+        choices=settings.LANGUAGES,
+        max_length=5,
+        default=settings.LANGUAGE_CODE)
 
     class Meta:
         unique_together = ('name', 'language', )
