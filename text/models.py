@@ -16,7 +16,7 @@ class Text(models.Model):
     type = models.IntegerField(choices=TYPES, blank=False, default=TYPE_TEXT)
 
     def __unicode__(self):
-        return self.render()
+        return self.name
 
     def render(self):
         text = self.body
