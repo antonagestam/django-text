@@ -2,7 +2,7 @@
 
 # django-text
 
-Edit content in the Django Admin.
+Intuitive text editing for the Django Admin.
 
 ## Installation
 
