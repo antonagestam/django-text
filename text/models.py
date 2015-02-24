@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 import markdown
 
@@ -11,9 +12,14 @@ class Text(models.Model):
         (TYPE_MARKDOWN, 'Markdown'),
     )
 
-    name = models.CharField(unique=True, max_length=50, db_index=True)
+    name = models.CharField(max_length=50, db_index=True)
     body = models.TextField()
     type = models.IntegerField(choices=TYPES, blank=False, default=TYPE_TEXT)
+    language = models.CharField(choices=settings.LANGUAGES, max_length=5)
+
+    class Meta:
+        unique_together = ('name', 'language', )
+        index_together = ['name', 'language', ]
 
     def __unicode__(self):
         return self.name
