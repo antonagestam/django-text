@@ -1,14 +1,15 @@
 (function ($) {
     "use strict";
     $(function () {
-        var markDownEl = document.querySelector(".markdown");
-        markDownEl.style.display = 'none';
-        new MediumEditor(document.querySelector(".editor"), {
-            extensions: {
-                markdown: new MeMarkdown(function (md) {
-                    markDownEl.innerText = md;
-                })
-            }
+        $(".markdown").hide().each(function () {
+            var markDownEl = this;
+            new MediumEditor(document.querySelector(".editor"), {
+                extensions: {
+                    markdown: new MeMarkdown(function (md) {
+                        markDownEl.val(md);
+                    })
+                }
+            });
         });
     });
 }(django.jQuery));
