@@ -9,22 +9,7 @@ import markdown
 
 MARKDOWN_TEMPLATE = """
 <textarea{0}>\r\n{1}</textarea>
-
 <div class="editor">{2}</div>
-
-<script>
-    (function () {
-        var markDownEl = document.querySelector(".markdown");
-        markDownEl.style.display = 'none';
-        new MediumEditor(document.querySelector(".editor"), {
-            extensions: {
-                markdown: new MeMarkdown(function (md) {
-                    markDownEl.innerText = md;
-                })
-            }
-        });
-    })();
-</script>
 """
 
 
@@ -39,6 +24,7 @@ class MarkdownEditorWidget(forms.widgets.Textarea):
         js = (
             'text/bundle/medium-editor-3.0.0/js/medium-editor.min.js',
             'text/bundle/medium-editor-markdown-1.1.0/me-markdown.standalone.min.js',
+            'text/js/markdown-widget.js',
         )
 
     def __init__(self, attrs=None):

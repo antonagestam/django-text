@@ -1,4 +1,3 @@
 include README.md
 include LICENSE
 recursive-include text/static *
-recursive-include text/templates *
