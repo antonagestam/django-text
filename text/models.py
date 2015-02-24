@@ -25,6 +25,7 @@ class Text(models.Model):
     class Meta:
         unique_together = ('name', 'language', )
         index_together = ['name', 'language', ]
+        ordering = ('name', 'language', )
 
     def __unicode__(self):
         return self.text_id
