@@ -8,15 +8,20 @@ form .editor p {
     padding-left: 0;
     font-size: 1.5em;
     color: black;
-}
-
-form .editor h2 {
-
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 form .editor h3 {
     padding-left: 0;
     font-size: 2em;
     font-weight: normal;
-    font-family: 'Helvetica Neue', Helvetica, Arial;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: black;
+}
+
+form .editor h4 {
+    padding-left: 0;
+    font-weight: normal;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: black;
 }
