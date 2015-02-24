@@ -19,6 +19,7 @@ class MarkdownEditorWidget(forms.widgets.Textarea):
             'all': (
                 'text/bundle/medium-editor-3.0.0/css/medium-editor.min.css',
                 'text/bundle/medium-editor-3.0.0/css/themes/default.min.css',
+                'text/css/markdown-widget.css',
             )
         }
         js = (

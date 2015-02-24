@@ -1,0 +1,22 @@
+.editor {
+    display: inline-block;
+    outline: none;
+}
+
+form .editor p {
+    margin-left: 0;
+    padding-left: 0;
+    font-size: 1.5em;
+    color: black;
+}
+
+form .editor h2 {
+
+}
+
+form .editor h3 {
+    padding-left: 0;
+    font-size: 2em;
+    font-weight: normal;
+    font-family: 'Helvetica Neue', Helvetica, Arial;
+}
