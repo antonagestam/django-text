@@ -11,7 +11,7 @@ form .editor p {
     padding-left: 0;
     font-size: 1.9em;
     color: black;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Lora', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     line-height: 1.8;
 }
 
@@ -19,7 +19,7 @@ form .editor h3 {
     padding-left: 0;
     font-size: 5em;
     font-weight: normal;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Lora', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: black;
     margin-bottom: 1em;
 }
@@ -27,7 +27,7 @@ form .editor h3 {
 form .editor h4 {
     padding-left: 0;
     font-weight: normal;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Lora', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: black;
     font-size: 4em;
     margin-bottom: 1em !important
