@@ -1,9 +1,31 @@
 from django import forms
 from django.utils.safestring import mark_safe
-from django.template import Context
-from django.template.loader import get_template
+from django.utils.html import format_html
+from django.forms.utils import flatatt
+from django.utils.encoding import force_text
 
 import markdown
+
+
+MARKDOWN_TEMPLATE = """
+<textarea{0}>\r\n{1}</textarea>
+
+<div class="editor">{2}</div>
+
+<script>
+    (function () {
+        var markDownEl = document.querySelector(".markdown");
+        markDownEl.style.display = 'none';
+        new MediumEditor(document.querySelector(".editor"), {
+            extensions: {
+                markdown: new MeMarkdown(function (md) {
+                    markDownEl.innerText = md;
+                })
+            }
+        });
+    })();
+</script>
+"""
 
 
 class MarkdownEditorWidget(forms.widgets.Textarea):
@@ -19,16 +41,19 @@ class MarkdownEditorWidget(forms.widgets.Textarea):
             'text/bundle/medium-editor-markdown-1.1.0/me-markdown.standalone.min.js',
         )
 
+    def __init__(self, attrs=None):
+        default_attrs = {'cols': '40', 'rows': '10', 'class': 'markdown', 'style': 'display: none;'}
+        if attrs:
+            default_attrs.update(attrs)
+        super(MarkdownEditorWidget, self).__init__(default_attrs)
+
     def render(self, name, value, attrs=None):
-        if not attrs:
-            attrs = {}
-        if 'class' not in attrs:
-            attrs['class'] = ''
-        attrs['class'] += ' markdown'
-        template = get_template('text/markdown_editor_widget.html')
-        context = Context({
-            'value': value,
-            'name': name,
-            'rendered': markdown.markdown(value, output_format='html5'),
-        })
-        return mark_safe(template.render(context))
+        if value is None:
+            value = ''
+        final_attrs = self.build_attrs(attrs, name=name)
+        rendered = mark_safe(markdown.markdown(value, output_format='html5'))
+        return format_html(
+            MARKDOWN_TEMPLATE,
+            flatatt(final_attrs),
+            force_text(value),
+            rendered)
