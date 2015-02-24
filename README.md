@@ -1,3 +1,5 @@
+:warning:  This project is in early development and has buggs, contribution is welcome.
+
 # django-text
 
 Edit content in the Django Admin.
