@@ -97,9 +97,9 @@ class TextGetter(object):
         else:
             existing = set(self.texts[language].keys())
         missing = registered - existing
-        texts = Text.objects.filter(name__in=missing)
+        texts = Text.objects.filter(name__in=missing, language=language)
         for text in texts.iterator():
-            subdict_add(self.texts, language, text.name, text)
+            subdict_add(self.texts, text.language, text.name, text)
 
     def clear(self, text):
         try:
