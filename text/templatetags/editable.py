@@ -16,9 +16,9 @@ class TextGetter(object):
         self.registered_texts.add(text_name)
 
     def require(self, text_name):
-        if text_name not in self.registered_texts:
+        if text_name not in self.texts:
             self.register(text_name)
-        self.get_registered_texts()
+            self.get_registered_texts()
         return self.texts[text_name]
 
     def get_registered_texts(self):
