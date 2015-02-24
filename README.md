@@ -41,3 +41,5 @@ Add `editable` tags to your templates.
 
 Now add text nodes with the corresponding names in the Django Admin.
 Currently raw text and [markdown](http://daringfireball.net/projects/markdown/) is supported.
+
+![django-text in action](/docs/printscreen.png)
