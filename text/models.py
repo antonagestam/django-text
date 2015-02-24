@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils.translation import get_language
 
 import markdown
 
@@ -44,31 +45,72 @@ class Text(models.Model):
         return "%s_%s" % (self.name, self.language)
 
 
+def subdict_add(obj, sub, key, value):
+    if sub not in obj:
+        obj[sub] = {}
+    obj[sub][key] = value
+
+
+def subdict_get(obj, sub, key):
+    return obj[sub][key]
+
+
+def subdict_del(obj, sub, key):
+    del obj[sub][key]
+
+
+def in_sub(obj, sub, key):
+    return sub in obj and key in obj[sub]
+
+
+def subset_add(obj, sub, value):
+    if sub not in obj:
+        obj[sub] = set()
+    obj[sub].add(value)
+
+
+def subset_remove(obj, sub, value):
+    obj[sub].remove(value)
+
+
 class TextGetter(object):
     def __init__(self):
-        self.registered_texts = set()
+        self.registered_texts = {}
         self.texts = {}
 
     def register(self, text_name):
-        self.registered_texts.add(text_name)
+        language = get_language()
+        subset_add(self.registered_texts, language, text_name)
 
-    def require(self, text_name, language):
-        text_id = '%s_%s' % (text_name, language)
-        if text_id not in self.texts:
+    def require(self, text_name):
+        language = get_language()
+        if not in_sub(self.texts, language, text_name):
             self.register(text_name)
             self.get_registered_texts()
-        return self.texts[text_id]
+        return subdict_get(self.texts, language, text_name)
 
     def get_registered_texts(self):
-        texts = Text.objects.filter(name__in=self.registered_texts)
-        for text in texts:
-            self.texts[text.text_id] = text
+        language = get_language()
+        registered = self.registered_texts[language]
+        if language not in self.texts:
+            existing = set()
+        else:
+            existing = set(self.texts[language].keys())
+        missing = registered - existing
+        texts = Text.objects.filter(name__in=missing)
+        for text in texts.iterator():
+            subdict_add(self.texts, language, text.name, text)
 
     def clear(self, text):
-        if text.text_id in self.texts:
-            del self.texts[text.text_id]
-        if text.name in self.registered_texts:
-            self.registered_texts.remove(text.name)
+        try:
+            subdict_del(self.texts, text.language, text.name)
+        except KeyError:
+            pass
+
+        try:
+            subset_remove(self.registered_texts, text.language, text.name)
+        except KeyError:
+            pass
 
 
 text_getter = TextGetter()

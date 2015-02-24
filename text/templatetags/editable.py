@@ -1,5 +1,4 @@
 from django import template
-from django.utils.translation import get_language
 
 from text.models import text_getter
 
@@ -13,7 +12,7 @@ class TextNode(template.Node):
 
     def render(self, context):
         try:
-            text = text_getter.require(self.text_name, get_language()).render()
+            text = text_getter.require(self.text_name).render()
         except KeyError:
             text = self.text_name
         return text
