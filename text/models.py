@@ -23,3 +23,34 @@ class Text(models.Model):
         if self.type is self.TYPE_MARKDOWN:
             text = markdown.markdown(text, output_format='html5')
         return text
+
+    def save(self, *args, **kwargs):
+        ret_val = super(Text, self).save(*args, **kwargs)
+        text_getter.clear(self.name)
+        return ret_val
+
+
+class TextGetter(object):
+    def __init__(self):
+        self.registered_texts = set()
+        self.texts = {}
+
+    def register(self, text_name):
+        self.registered_texts.add(text_name)
+
+    def require(self, text_name):
+        if text_name not in self.texts:
+            self.register(text_name)
+            self.get_registered_texts()
+        return self.texts[text_name]
+
+    def get_registered_texts(self):
+        texts = Text.objects.filter(name__in=self.registered_texts)
+        for text in texts:
+            self.texts[text.name] = text
+
+    def clear(self, text_name):
+        del self.texts[text_name]
+
+
+text_getter = TextGetter()
