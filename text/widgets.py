@@ -7,7 +7,7 @@ from django.utils.encoding import force_text
 import markdown
 
 
-MARKDOWN_TEMPLATE = """
+MARKDOWN_TEMPLATE = u"""
 <textarea{0}>\r\n{1}</textarea>
 <div class="editor">{2}</div>
 """
