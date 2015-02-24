@@ -1,6 +1,9 @@
 .editor {
     display: inline-block;
     outline: none;
+    padding: 50px 50px 65px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 form .editor p {
@@ -17,6 +20,7 @@ form .editor h3 {
     font-weight: normal;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: black;
+    margin-bottom: 1em;
 }
 
 form .editor h4 {
@@ -24,4 +28,6 @@ form .editor h4 {
     font-weight: normal;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: black;
+    font-size: 2em;
+    margin-bottom: 1em !important
 }
