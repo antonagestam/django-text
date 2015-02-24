@@ -3,6 +3,8 @@ from django.utils.safestring import mark_safe
 from django.template import Context
 from django.template.loader import get_template
 
+import markdown
+
 
 class MarkdownEditorWidget(forms.widgets.Textarea):
     class Media:
@@ -23,7 +25,10 @@ class MarkdownEditorWidget(forms.widgets.Textarea):
         if 'class' not in attrs:
             attrs['class'] = ''
         attrs['class'] += ' markdown'
-        textarea = super(MarkdownEditorWidget, self).render(name, value, attrs)
         template = get_template('text/markdown_editor_widget.html')
-        context = Context({'textarea': textarea})
+        context = Context({
+            'value': value,
+            'name': name,
+            'rendered': markdown.markdown(value, output_format='html5'),
+        })
         return mark_safe(template.render(context))
