@@ -1,4 +1,4 @@
-:warning:  This project is in early development and has buggs, contribution is welcome.
+:warning:  This project is in early development and has bugs, contribution is welcome.
 
 # django-text
 
