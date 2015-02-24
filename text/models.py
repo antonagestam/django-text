@@ -59,7 +59,10 @@ class TextGetter(object):
             self.texts[text.name] = text
 
     def clear(self, text_name):
-        del self.texts[text_name]
+        if text_name in self.texts:
+            del self.texts[text_name]
+        if text_name in self.registered_texts:
+            self.registered_texts.remove(text_name)
 
 
 text_getter = TextGetter()
