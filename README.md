@@ -23,14 +23,14 @@ INSTALLED_APPS = (
 )
 ```
 
-Add `text.middleware.AutoPopulateMiddleware` to your middleware.
+Add `text.middleware.TextMiddleware` to your middleware.
 
 ```python
 # settings.py
 
 MIDDLEWARE = (
     # ...
-    'text.middleware.AutoPopulateMiddleware',
+    'text.middleware.TextMiddleware',
 )
 ```
 
