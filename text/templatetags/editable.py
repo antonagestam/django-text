@@ -1,6 +1,7 @@
 from django import template
 
-from text.models import text_getter
+from text.models import text_getter, text_setter
+from text.conf import settings
 
 register = template.Library()
 
@@ -10,11 +11,16 @@ class TextNode(template.Node):
         self.text_name = text_name
         text_getter.register(text_name)
 
+    def set_missing(self, text):
+        if settings.AUTOPOPULATE_TEXT:
+            text_setter.set(self.text_name, text)
+
     def render(self, context):
         try:
             text = text_getter.require(self.text_name).render()
         except KeyError:
             text = self.text_name
+            self.set_missing(text)
         return text
 
 
@@ -28,6 +34,7 @@ class BlockTextNode(TextNode):
             text = text_getter.require(self.text_name).render()
         except KeyError:
             text = self.nodelist.render(context)
+            self.set_missing(text)
         return text
 
 

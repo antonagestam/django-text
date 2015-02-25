@@ -115,3 +115,25 @@ class TextGetter(object):
 
 
 text_getter = TextGetter()
+
+
+class TextSetter(object):
+    def __init__(self):
+        self.texts = {}
+
+    def set(self, name, text):
+        language = get_language()
+        subdict_add(self.texts, language, name, text)
+
+    def save(self):
+        for language, texts in self.texts:
+            for name, value in texts:
+                text = Text(name=name, body=value, language=language)
+                text.save()
+        self.clear()
+
+    def clear(self):
+        self.texts = {}
+
+
+text_setter = TextSetter()
