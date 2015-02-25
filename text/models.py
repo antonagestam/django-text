@@ -126,9 +126,13 @@ class TextSetter(object):
         subdict_add(self.texts, language, name, text)
 
     def save(self):
-        for language, texts in self.texts:
-            for name, value in texts:
-                text = Text(name=name, body=value, language=language)
+        for language, texts in self.texts.iteritems():
+            for name, value in texts.iteritems():
+                text = Text(
+                    name=name,
+                    body=value,
+                    language=language,
+                    type=Text.TYPE_TEXT)
                 text.save()
         self.clear()
 
