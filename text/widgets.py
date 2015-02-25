@@ -25,7 +25,9 @@ class MarkdownEditorWidget(forms.widgets.Textarea):
         }
         js = (
             'text/bundle/medium-editor-3.0.0/js/medium-editor.min.js',
-            'text/bundle/medium-editor-markdown-1.1.0/me-markdown.standalone.min.js',
+            'text/bundle/he-0.5.0/he.js',
+            'text/bundle/to-markdown-0.0.3/to-markdown.js',
+            'text/bundle/medium-editor-markdown-1.1.0/me-markdown.no-deps.min.js',
             'text/js/markdown-widget.js',
         )
 
