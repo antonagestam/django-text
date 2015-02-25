@@ -38,7 +38,6 @@ class Text(models.Model):
 
     def save(self, *args, **kwargs):
         ret_val = super(Text, self).save(*args, **kwargs)
-        text_getter.clear(self)
         return ret_val
 
     @property
@@ -72,49 +71,6 @@ def subset_add(obj, sub, value):
 
 def subset_remove(obj, sub, value):
     obj[sub].remove(value)
-
-
-class TextGetter(object):
-    def __init__(self):
-        self.registered_texts = {}
-        self.texts = {}
-
-    def register(self, text_name):
-        language = get_language()
-        subset_add(self.registered_texts, language, text_name)
-
-    def require(self, text_name):
-        language = get_language()
-        if not in_sub(self.texts, language, text_name):
-            self.register(text_name)
-            self.get_registered_texts()
-        return subdict_get(self.texts, language, text_name)
-
-    def get_registered_texts(self):
-        language = get_language()
-        registered = self.registered_texts[language]
-        if language not in self.texts:
-            existing = set()
-        else:
-            existing = set(self.texts[language].keys())
-        missing = registered - existing
-        texts = Text.objects.filter(name__in=missing, language=language)
-        for text in texts.iterator():
-            subdict_add(self.texts, text.language, text.name, text)
-
-    def clear(self, text):
-        try:
-            subdict_del(self.texts, text.language, text.name)
-        except KeyError:
-            pass
-
-        try:
-            subset_remove(self.registered_texts, text.language, text.name)
-        except KeyError:
-            pass
-
-
-text_getter = TextGetter()
 
 
 class TextSetter(object):
