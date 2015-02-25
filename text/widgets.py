@@ -32,7 +32,7 @@ class MarkdownEditorWidget(forms.widgets.Textarea):
         )
 
     def __init__(self, attrs=None):
-        default_attrs = {'cols': '40', 'rows': '10', 'class': 'markdown', 'style': 'display: none;'}
+        default_attrs = {'cols': '40', 'rows': '10', 'class': 'markdown', }
         if attrs:
             default_attrs.update(attrs)
         super(MarkdownEditorWidget, self).__init__(default_attrs)
