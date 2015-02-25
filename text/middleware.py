@@ -10,9 +10,9 @@ def build_context(texts, defaults):
     placeholder = "text_placeholder_{0}"
     context = {placeholder.format(t.name): t.render() for t in texts}
     for name, text in defaults.iteritems():
-        name = placeholder.format(name)
-        if name not in context:
-            context[name] = text
+        pname = placeholder.format(name)
+        if pname not in context:
+            context[pname] = text
             text_setter.set(name, text)
     return context
 
