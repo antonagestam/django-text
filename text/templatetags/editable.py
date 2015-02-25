@@ -1,30 +1,32 @@
 from django import template
-from django.utils.translation import get_language
-
-from text.models import Text, text_setter
-from text.conf import settings
 
 register = template.Library()
+
+from logging import getLogger
+l = getLogger(__name__)
 
 
 class TextNode(template.Node):
     def __init__(self, text_name):
         self.text_name = text_name
 
-    def set_missing(self, text):
-        if settings.AUTOPOPULATE_TEXT:
-            text_setter.set(self.text_name, text)
+    def set_default(self, context, content):
+        if not hasattr(context['request'], 'text_default_register'):
+            context['request'].text_default_register = {}
+        context['request'].text_default_register[self.text_name] = content
+
+    def register(self, context):
+        if not hasattr(context['request'], 'text_register'):
+            context['request'].text_register = []
+        context['request'].text_register.append(self.text_name)
+
+    def get_placeholder(self):
+        return "{{ text_placeholder_%s }}" % self.text_name
 
     def render(self, context):
-        language = get_language()
-
-        try:
-            obj = Text.objects.get(name=self.text_name, language=language)
-            text = obj.render()
-        except Text.DoesNotExist:
-            text = self.text_name
-            self.set_missing(text)
-        return text
+        self.register(context)
+        self.set_default(context, self.text_name)
+        return self.get_placeholder()
 
 
 class BlockTextNode(TextNode):
@@ -33,15 +35,9 @@ class BlockTextNode(TextNode):
         self.nodelist = nodelist
 
     def render(self, context):
-        language = get_language()
-
-        try:
-            obj = Text.objects.get(name=self.text_name, language=language)
-            text = obj.render()
-        except Text.DoesNotExist:
-            text = self.nodelist.render(context)
-            self.set_missing(text)
-        return text
+        self.register(context)
+        self.set_default(context, self.nodelist.render(context))
+        return self.get_placeholder()
 
 
 def get_text_name(token):
