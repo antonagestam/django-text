@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils.translation import get_language
+from django.utils.safestring import mark_safe
 
 import markdown
 
@@ -34,7 +35,7 @@ class Text(models.Model):
         text = self.body
         if self.type is self.TYPE_MARKDOWN:
             text = markdown.markdown(text, output_format='html5')
-        return text
+        return mark_safe(text)
 
     def save(self, *args, **kwargs):
         ret_val = super(Text, self).save(*args, **kwargs)

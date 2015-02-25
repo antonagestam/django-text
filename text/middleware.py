@@ -8,7 +8,7 @@ from .models import text_setter, Text
 
 def build_context(texts, defaults):
     placeholder = "text_placeholder_{0}"
-    context = {placeholder.format(t.name): t.render for t in texts}
+    context = {placeholder.format(t.name): t.render() for t in texts}
     for name, text in defaults.iteritems():
         name = placeholder.format(name)
         if name not in context:
@@ -39,5 +39,4 @@ class TextMiddleware(object):
         else:
             defaults = {}
         context = Context(build_context(texts, defaults))
-        l.debug({t.name: t.render() for t in texts})
         return SimpleTemplateResponse(template, context)
