@@ -23,6 +23,17 @@ INSTALLED_APPS = (
 )
 ```
 
+Add `text.middleware.AutoPopulateMiddleware` to your middleware.
+
+```python
+# settings.py
+
+MIDDLEWARE = (
+    # ...
+    'text.middleware.AutoPopulateMiddleware',
+)
+```
+
 Run `migrate`.
 
 ```shell
@@ -67,7 +78,16 @@ add text nodes for some of the languages that you support.
 
 ### Content editing
 
-Now add text nodes with the corresponding names in the Django Admin.
-Currently raw text and [markdown](http://daringfireball.net/projects/markdown/) is supported.
-
 ![django-text in action](/docs/printscreen.png)
+
+Now add text nodes with the corresponding names in the Django Admin. Currently raw text and [markdown](http://daringfireball.net/projects/markdown/) is supported.
+
+Missing text nodes will be added to the database automatically when their
+template tags are rendered. Blocktags will be added with their default
+text and inline tags will be added with the name of the node as the text content.
+
+To disable automatic updating of missing text nodes add the following to your settings.
+
+```python
+AUTOPOPULATE_TEXT = False
+```
