@@ -12,7 +12,7 @@ Install the package with pip.
 $ pip install django-text
 ```
 
-Add `'text'` to your installed packages.
+Add `text` to your installed packages.
 
 ```python
 # settings.py
