@@ -5,9 +5,6 @@ from django.utils.translation import get_language
 from .conf import settings
 from .models import text_setter, Text
 
-from logging import getLogger
-l = getLogger(__name__)
-
 
 def build_context(texts, defaults):
     placeholder = "text_placeholder_{0}"
