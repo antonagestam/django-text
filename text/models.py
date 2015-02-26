@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-from django.utils.translation import get_language
 from django.utils.safestring import mark_safe
 
 import markdown
@@ -44,57 +43,3 @@ class Text(models.Model):
     @property
     def text_id(self):
         return "%s_%s" % (self.name, self.language)
-
-
-def subdict_add(obj, sub, key, value):
-    if sub not in obj:
-        obj[sub] = {}
-    obj[sub][key] = value
-
-
-def subdict_get(obj, sub, key):
-    return obj[sub][key]
-
-
-def subdict_del(obj, sub, key):
-    del obj[sub][key]
-
-
-def in_sub(obj, sub, key):
-    return sub in obj and key in obj[sub]
-
-
-def subset_add(obj, sub, value):
-    if sub not in obj:
-        obj[sub] = set()
-    obj[sub].add(value)
-
-
-def subset_remove(obj, sub, value):
-    obj[sub].remove(value)
-
-
-class TextSetter(object):
-    def __init__(self):
-        self.texts = {}
-
-    def set(self, name, text):
-        language = get_language()
-        subdict_add(self.texts, language, name, text)
-
-    def save(self):
-        for language, texts in self.texts.iteritems():
-            for name, value in texts.iteritems():
-                text = Text(
-                    name=name,
-                    body=value,
-                    language=language,
-                    type=Text.TYPE_TEXT)
-                text.save()
-        self.clear()
-
-    def clear(self):
-        self.texts = {}
-
-
-text_setter = TextSetter()
