@@ -3,7 +3,7 @@ from django.template import Template, Context
 from django.utils.translation import get_language
 
 from .conf import settings
-from .models import text_setter, Text
+from .models import Text
 
 
 def build_context(texts, defaults):
@@ -13,19 +13,23 @@ def build_context(texts, defaults):
         pname = placeholder.format(name)
         if pname not in context:
             context[pname] = text
-            text_setter.set(name, text)
+            populate_text(name, text)
     return context
 
 
+def populate_text(name, text):
+    if not settings.AUTOPOPULATE_TEXT:
+        return
+    language = get_language()
+    text = Text(
+        name=name,
+        body=text,
+        language=language,
+        type=Text.TYPE_TEXT)
+    text.save()
+
+
 class TextMiddleware(object):
-    def process_response(self, request, response):
-        if settings.AUTOPOPULATE_TEXT:
-            text_setter.save()
-        return response
-
-    def process_request(self, request):
-        text_setter.clear()
-
     def process_template_response(self, request, response):
         template = Template(response.render().content)
         if not hasattr(request, 'text_register'):
