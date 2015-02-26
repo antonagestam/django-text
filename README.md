@@ -91,3 +91,8 @@ To disable automatic updating of missing text nodes add the following to your se
 ```python
 AUTOPOPULATE_TEXT = False
 ```
+
+## License
+
+Copyright (c) 2015 Anton Agestam. django-text is released under the MIT license.
+See the LICENSE file for more information and licenses for bundled code.
