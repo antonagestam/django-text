@@ -6,7 +6,7 @@ Intuitive text editing for the Django Admin.
 
 :warning:
 
-This project is in early development, will change quickly and most likely has bugs.
+This project is in early development, will change rapidly and most likely has bugs.
 
 ## Installation
 
@@ -101,11 +101,12 @@ To disable automatic updating of missing text nodes add the following to your se
 AUTOPOPULATE_TEXT = False
 ```
 
+## Contribution
+
+Contribution is very welcome. Use [issues](https://github.com/antonagestam/django-text/issues) to report bugs and propose features.
+
+
 ## License
 
 Copyright (c) 2015 Anton Agestam. django-text is released under the MIT license.
 See the LICENSE file for more information and licenses for bundled code.
-
-## Contribution
-
-Contribution is very welcome. Use [issues](https://github.com/antonagestam/django-text/issues) to report bugs and propose features.
