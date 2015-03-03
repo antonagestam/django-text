@@ -53,12 +53,13 @@ class BlockTextNode(TextNode):
 @register.tag(name='editable')
 def editable(parser, token):
     bits = token.split_contents()
-    text_name = parser.compile_filter(bits[1])
+    text_name = bits[1]
     try:
         default = bits[2]
-    except ValueError:
+    except IndexError:
         default = text_name
     default = parser.compile_filter(default)
+    text_name = parser.compile_filter(text_name)
     return TextNode(text_name, default)
 
 
