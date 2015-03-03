@@ -2,31 +2,40 @@ from django import template
 
 register = template.Library()
 
-from logging import getLogger
-l = getLogger(__name__)
-
 
 class TextNode(template.Node):
-    def __init__(self, text_name):
+    def __init__(self, text_name, default_text=None):
         self.text_name = text_name
+        if default_text is not None:
+            self.default_text = default_text
+        else:
+            self.default_text = self.text_name
 
-    def set_default(self, context, content):
+    def resolved_text_name(self, context):
+        text_name = self.text_name.resolve(context)
+        if not text_name or text_name.strip() == '':
+            raise template.TemplateSyntaxError("Invalid text node name")
+        return text_name
+
+    def set_default(self, text_name, context, content):
         if not hasattr(context['request'], 'text_default_register'):
             context['request'].text_default_register = {}
-        context['request'].text_default_register[self.text_name] = content
+        context['request'].text_default_register[text_name] = content
 
-    def register(self, context):
+    def register(self, text_name, context):
         if not hasattr(context['request'], 'text_register'):
             context['request'].text_register = []
-        context['request'].text_register.append(self.text_name)
+        context['request'].text_register.append(text_name)
 
-    def get_placeholder(self):
-        return "{{ text_placeholder_%s }}" % self.text_name
+    def get_placeholder(self, context):
+        text_name = self.resolved_text_name(context)
+        return "{{ text_placeholder_%s }}" % text_name
 
     def render(self, context):
-        self.register(context)
-        self.set_default(context, self.text_name)
-        return self.get_placeholder()
+        text_name = self.resolved_text_name(context)
+        self.register(text_name, context)
+        self.set_default(text_name, context, self.default_text.resolve(context))
+        return self.get_placeholder(context)
 
 
 class BlockTextNode(TextNode):
@@ -35,27 +44,28 @@ class BlockTextNode(TextNode):
         self.nodelist = nodelist
 
     def render(self, context):
-        self.register(context)
-        self.set_default(context, self.nodelist.render(context))
-        return self.get_placeholder()
+        text_name = self.resolved_text_name(context)
+        self.register(text_name, context)
+        self.set_default(text_name, context, self.nodelist.render(context))
+        return self.get_placeholder(context)
 
-
-def get_text_name(token):
-    try:
-        # split_contents() knows not to split quoted strings.
-        __, text_name = token.split_contents()
-    except ValueError:
-        raise template.TemplateSyntaxError(
-            "%r tag requires a single argument" % token.contents.split()[0])
-    return text_name
 
 @register.tag(name='editable')
 def editable(parser, token):
-    return TextNode(get_text_name(token))
+    bits = token.split_contents()
+    text_name = parser.compile_filter(bits[1])
+    try:
+        default = bits[2]
+    except ValueError:
+        default = text_name
+    default = parser.compile_filter(default)
+    return TextNode(text_name, default)
 
 
 @register.tag(name='blockeditable')
 def blockeditable(parser, token):
     nodelist = parser.parse(('endblockeditable', ))
     parser.delete_first_token()
-    return BlockTextNode(nodelist, get_text_name(token))
+    bits = token.split_contents()
+    text_name = parser.compile_filter(bits[1])
+    return BlockTextNode(nodelist, text_name)
