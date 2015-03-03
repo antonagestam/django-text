@@ -42,31 +42,36 @@ $ python manage.py migrate
 
 ## Usage
 
-### Template tags
+### The `editable` tag
 
-Add `editable` tags to your templates. Beware this tag will show the name
-of the text node if there is no corresponding text nodes in the database.
+Add `editable` tags to your templates.
 
 ```html
-<h1>{% editable header %}</h1>
+<h1>{% editable "header" "My Header" %}</h1>
 
 <div class="content">
-    {% editable text_body %}
+    {% editable "text_body" %}
 </div>
 ```
 
-You can also use the `blockeditable` tag that let's you specify a default text
-that will show up if there is no database entry.
+The `editable` tag takes a default text as the second argument.
+If no default text is passed, the name of the text node (i.e. the first argument)
+will be used if there is no corresponding text node in the database.
+
+### The `blockeditable` tag
+
+You can also use the `blockeditable` tag that let's you wrap content to use
+as the default text.
 
 ```html
 <div class="content">
     <h1>
-        {% blockeditable header %}
+        {% blockeditable "header" %}
             Read My Awesome Text
         {% endblockeditable %}
     </h1>
     
-    {% blockeditable content %}
+    {% blockeditable "content" %}
         Put your default text here!
     {% endblockeditable %}
 </div>
