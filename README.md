@@ -2,6 +2,8 @@
 
 # django-text
 
+[![Join the chat at https://gitter.im/antonagestam/django-text](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/antonagestam/django-text?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Intuitive text editing for the Django Admin.
 
 ## Installation
