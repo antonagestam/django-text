@@ -1,10 +1,12 @@
-:warning:  This project is in early development, will change quickly and most likely has bugs. Contribution is very welcome!
-
 # django-text
 
 [![Join the chat at https://gitter.im/antonagestam/django-text](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/antonagestam/django-text?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Intuitive text editing for the Django Admin.
+
+:warning:
+
+This project is in early development, will change quickly and most likely has bugs.
 
 ## Installation
 
@@ -103,3 +105,7 @@ AUTOPOPULATE_TEXT = False
 
 Copyright (c) 2015 Anton Agestam. django-text is released under the MIT license.
 See the LICENSE file for more information and licenses for bundled code.
+
+## Contribution
+
+Contribution is very welcome. Use [issues](https://github.com/antonagestam/django-text/issues) to report bugs and propose features.
