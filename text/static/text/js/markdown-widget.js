@@ -3,6 +3,8 @@
 
     function init_editor(textarea, editor) {
         new MediumEditor(editor.get(), {
+            firstHeader: 'h1',
+            secondHeader: 'h2',
             extensions: {
                 markdown: new MeMarkdown(function (md) {
                     textarea.val(md);

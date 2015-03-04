@@ -7,28 +7,33 @@
 }
 
 form .editor p {
+    margin-bottom: 1em !important;
     margin-left: 0;
     padding-left: 0;
-    font-size: 1.9em;
+    font-size: 1.3em;
     color: black;
     font-family: 'Lora', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     line-height: 1.8;
 }
 
-form .editor h3 {
+form .editor h1 {
     padding-left: 0;
-    font-size: 5em;
+    font-size: 3em;
     font-weight: normal;
     font-family: 'Lora', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: black;
-    margin-bottom: 1em;
+    margin: 1em 0;
+    text-shadow: none !important;
+    line-height: 1.2;
 }
 
-form .editor h4 {
+form .editor h2 {
     padding-left: 0;
     font-weight: normal;
     font-family: 'Lora', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: black;
-    font-size: 4em;
-    margin-bottom: 1em !important
+    font-size: 1.8em;
+    margin: 1.5em 0 1em !important;
+    text-shadow: none !important;
+    line-height: 1.2;
 }
