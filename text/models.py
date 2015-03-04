@@ -6,8 +6,8 @@ import markdown
 
 
 class Text(models.Model):
-    TYPE_TEXT = 0
-    TYPE_MARKDOWN = 1
+    TYPE_TEXT = 'text'
+    TYPE_MARKDOWN = 'markdown'
     TYPES = (
         (TYPE_TEXT, 'Text'),
         (TYPE_MARKDOWN, 'Markdown'),
@@ -15,8 +15,11 @@ class Text(models.Model):
 
     name = models.CharField(max_length=50, db_index=True)
     body = models.TextField()
-    type = models.IntegerField(
-        choices=TYPES, blank=False, default=TYPE_MARKDOWN)
+    type = models.CharField(
+        choices=TYPES,
+        blank=False,
+        default=TYPE_MARKDOWN,
+        max_length=20)
     language = models.CharField(
         choices=settings.LANGUAGES,
         max_length=5,
