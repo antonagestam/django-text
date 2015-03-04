@@ -1,0 +1,115 @@
+#djtext_toolbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    background: #f9f9f9;
+    color: #333;
+    display: none;
+    padding: 20px 50px;
+    font-family: 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    overflow-x: scroll;
+}
+
+#djtext_toolbar h3 {
+    font-size: 1.17em;
+    font-weight: bold;
+}
+
+#djtext_toolbar_handle {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    color: black;
+    padding: 15px 30px;
+    cursor: pointer;
+    font-family: 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+    border: 5px solid black;
+}
+
+#djtext_toolbar_handle:hover {
+    background: white;
+    color: black;
+    border-color: white;
+    text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+    #djtext_toolbar_handle {
+        display: none;
+    }
+}
+
+.djtext_close_toolbar {
+    position: absolute;
+    right: 40px;
+    top: 20px;
+    cursor: pointer;
+}
+
+.djtext_editor_wrapper {
+    float: left;
+    width: 70%;
+    box-sizing: border-box;
+}
+
+.djtext_editor {
+    display: none;
+    box-sizing: border-box;
+}
+
+.djtext_editor_input {
+    max-width: 100%;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 0 1em;
+    padding: 30px 50px 30px;
+    font-family: 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+    font-size: 20px;
+    border: none;
+    outline: none;
+}
+
+.djtext_menu {
+    width: 30%;
+    box-sizing: border-box;
+    float: left;
+    max-height: 350px;
+    overflow-y: scroll;
+    padding-left: 40px;
+}
+
+.djtext_menu ul {
+    list-style: none;
+    margin: 1em 0;
+    padding: 0;
+}
+
+.djtext_menu li {
+    background: white;
+    color: black;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.djtext_menu li:hover {
+    background: #666;
+    color: #222;
+}
+
+#djtext_form .djtext_html_editor {
+    background: white;
+    margin-bottom: 1em;
+    padding: 30px 50px 30px;
+}
+
+#djtext_form [for=id_djtext_form-body] {
+    display: none;
+}

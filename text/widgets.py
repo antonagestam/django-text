@@ -9,7 +9,7 @@ import markdown
 
 MARKDOWN_TEMPLATE = u"""
 <textarea{0}>\r\n{1}</textarea>
-<div class="editor">{2}</div>
+<div class="djtext_html_editor">{2}</div>
 """
 
 
@@ -29,7 +29,7 @@ class HTMLEditorWidget(forms.widgets.Textarea):
         )
 
     def __init__(self, attrs=None):
-        default_attrs = {'cols': '40', 'rows': '10', 'class': 'markdown', }
+        default_attrs = {'cols': '40', 'rows': '10', 'class': 'djtext_editor_input', }
         if attrs:
             default_attrs.update(attrs)
         super(HTMLEditorWidget, self).__init__(default_attrs)
