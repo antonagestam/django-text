@@ -8,9 +8,11 @@ import markdown
 class Text(models.Model):
     TYPE_TEXT = 'text'
     TYPE_MARKDOWN = 'markdown'
+    TYPE_HTML = 'html'
     TYPES = (
         (TYPE_TEXT, 'Text'),
         (TYPE_MARKDOWN, 'Markdown'),
+        (TYPE_HTML, 'HTML'),
     )
 
     name = models.CharField(max_length=50, db_index=True)
@@ -33,11 +35,18 @@ class Text(models.Model):
     def __unicode__(self):
         return self.text_id
 
+    def render_markdown(self, text):
+        return markdown.markdown(text, output_format='html5')
+
+    def render_html(self, text):
+        return text
+
+    def render_text(self, text):
+        return text
+
     def render(self):
-        text = self.body
-        if self.type is self.TYPE_MARKDOWN:
-            text = markdown.markdown(text, output_format='html5')
-        return mark_safe(text)
+        render = getattr(self, 'render_{0}'.format(self.type))
+        return mark_safe(render(self.body))
 
     def save(self, *args, **kwargs):
         ret_val = super(Text, self).save(*args, **kwargs)

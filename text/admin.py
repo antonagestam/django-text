@@ -2,13 +2,13 @@ from django.contrib import admin
 from django.db import models
 
 from .models import Text
-from .widgets import MarkdownEditorWidget
+from .widgets import HTMLEditorWidget
 
 
 class TextAdmin(admin.ModelAdmin):
     list_display = ('name', 'language', )
     formfield_overrides = {
-        models.TextField: {'widget': MarkdownEditorWidget},
+        models.TextField: {'widget': HTMLEditorWidget},
     }
 
 
