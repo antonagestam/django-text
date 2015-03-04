@@ -23,6 +23,7 @@
         };
     }
 
+
     function init_editor(textarea, editor) {
         new MediumEditor(editor.get(), {
             firstHeader: 'h1',
@@ -30,7 +31,6 @@
             extensions: {
                 markdown: new MEExtension(function (html) {
                     textarea.val(html);
-                    console.log("update!");
                 })
             }
         });
@@ -45,6 +45,7 @@
             if (mode == 'html') {
                 textarea.hide();
                 editor.show();
+                init_editor(textarea, editor);
             } else {
                 textarea.show();
                 editor.hide();
@@ -52,7 +53,6 @@
         }
 
         set_mode(type_select.val());
-        init_editor(textarea, editor);
 
         type_select.bind('change', function () {
             set_mode(type_select.val());
