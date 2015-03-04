@@ -56,6 +56,7 @@ class BlockTextNode(TextNode):
         text_name = self.resolved_text_name(context)
         self.register(text_name, context)
         self.set_default(text_name, context, self.nodelist.render(context))
+        self.set_type(text_name, context, self.type.resolve(context))
         return self.get_placeholder(context)
 
 
@@ -81,4 +82,9 @@ def blockeditable(parser, token):
     parser.delete_first_token()
     bits = token.split_contents()
     text_name = parser.compile_filter(bits[1])
-    return BlockTextNode(nodelist, text_name)
+    try:
+        text_type = bits[2]
+    except IndexError:
+        text_type = Text.TYPE_TEXT
+    text_type = parser.compile_filter(text_type)
+    return BlockTextNode(nodelist, text_name, text_type=text_type)
