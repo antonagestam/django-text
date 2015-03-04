@@ -39,6 +39,18 @@ MIDDLEWARE = (
 )
 ```
 
+Make sure these context processors are installed, they come with Django.
+
+```python
+# settings.py
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    # ...
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.request',
+)
+```
+
 Run `migrate`.
 
 ```shell
