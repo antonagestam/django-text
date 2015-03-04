@@ -1,15 +1,18 @@
 from django import template
 
+from text.models import Text
+
 register = template.Library()
 
 
 class TextNode(template.Node):
-    def __init__(self, text_name, default_text=None):
+    def __init__(self, text_name, default_text=None, text_type=Text.TYPE_TEXT):
         self.text_name = text_name
         if default_text is not None:
             self.default_text = default_text
         else:
             self.default_text = self.text_name
+        self.type = text_type
 
     def resolved_text_name(self, context):
         text_name = self.text_name.resolve(context)
@@ -21,6 +24,11 @@ class TextNode(template.Node):
         if not hasattr(context['request'], 'text_default_register'):
             context['request'].text_default_register = {}
         context['request'].text_default_register[text_name] = content
+
+    def set_type(self, text_name, context, text_type):
+        if not hasattr(context['request'], 'text_type_register'):
+            context['request'].text_type_register = {}
+        context['request'].text_type_register[text_name] = text_type
 
     def register(self, text_name, context):
         if not hasattr(context['request'], 'text_register'):
@@ -35,6 +43,7 @@ class TextNode(template.Node):
         text_name = self.resolved_text_name(context)
         self.register(text_name, context)
         self.set_default(text_name, context, self.default_text.resolve(context))
+        self.set_type(text_name, context, self.type.resolve(context))
         return self.get_placeholder(context)
 
 
@@ -47,6 +56,7 @@ class BlockTextNode(TextNode):
         text_name = self.resolved_text_name(context)
         self.register(text_name, context)
         self.set_default(text_name, context, self.nodelist.render(context))
+        self.set_type(text_name, context, self.type.resolve(context))
         return self.get_placeholder(context)
 
 
@@ -56,11 +66,14 @@ def editable(parser, token):
     text_name = bits[1]
     try:
         default = bits[2]
+        text_type = bits[3]
     except IndexError:
         default = text_name
+        text_type = Text.TYPE_TEXT
     default = parser.compile_filter(default)
     text_name = parser.compile_filter(text_name)
-    return TextNode(text_name, default)
+    text_type = parser.compile_filter(text_type)
+    return TextNode(text_name, default, text_type)
 
 
 @register.tag(name='blockeditable')
@@ -69,4 +82,9 @@ def blockeditable(parser, token):
     parser.delete_first_token()
     bits = token.split_contents()
     text_name = parser.compile_filter(bits[1])
-    return BlockTextNode(nodelist, text_name)
+    try:
+        text_type = bits[2]
+    except IndexError:
+        text_type = Text.TYPE_TEXT
+    text_type = parser.compile_filter(text_type)
+    return BlockTextNode(nodelist, text_name, text_type=text_type)

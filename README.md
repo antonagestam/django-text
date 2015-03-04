@@ -8,6 +8,7 @@ Intuitive text editing for the Django Admin.
 
 This project is in early development, will change rapidly and most likely has bugs.
 
+
 ## Installation
 
 Install the package with pip.
@@ -44,6 +45,7 @@ Run `migrate`.
 $ python manage.py migrate
 ```
 
+
 ## Usage
 
 ### The `editable` tag
@@ -61,6 +63,7 @@ Add `editable` tags to your templates.
 The `editable` tag takes a default text as the second argument.
 If no default text is passed, the name of the text node (i.e. the first argument)
 will be used if there is no corresponding text node in the database.
+
 
 ### The `blockeditable` tag
 
@@ -84,6 +87,25 @@ as the default text.
 The `blockeditable` tags works with translation tags inside of it. So if you already
 have a translated site, you can wrap your content with this tag and only
 add text nodes for some of the languages that you support.
+
+
+### Specifying content type
+
+Both the `editable` and the `blockeditable` tags support specifying the content
+type of its default text.
+
+```html
+{% editable "html_node" "<h1>Hello World!</h1>" "html" %}
+
+{% blockeditable "markdown_node" "markdown" %}
+# Hello there,
+
+I can have markdown in my templates!
+{% endblockeditable %}
+```
+
+If this is not provided both will default to raw text.
+
 
 ### Content editing
 
