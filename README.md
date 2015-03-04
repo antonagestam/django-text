@@ -89,7 +89,9 @@ add text nodes for some of the languages that you support.
 
 ![django-text in action](/docs/printscreen.png)
 
-Now add text nodes with the corresponding names in the Django Admin. Currently raw text and [markdown](http://daringfireball.net/projects/markdown/) is supported.
+Now add text nodes with the corresponding names in the Django Admin. Currently raw text, [markdown](http://daringfireball.net/projects/markdown/) and HTML is supported. The editor
+is only implemented for HTML nodes, markdown and text types will show up as a normal
+textarea.
 
 Missing text nodes will be added to the database automatically when their
 template tags are rendered. Blocktags will be added with their default
