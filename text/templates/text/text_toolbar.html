@@ -1,0 +1,52 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'text/css/toolbar.css' %}" />
+
+<div id="djtext_toolbar_handle">
+    Edit texts
+</div>
+
+<div id="djtext_toolbar" data-language="{{ language }}" data-url-pattern="{% url 'django_text:text' text_slug='__id__' %}">
+    <div class="djtext_close_toolbar">Hide</div>
+
+    <div class="djtext_editor_wrapper">
+        <div class="djtext_editor_start">
+            <h3>Select a text on the right to get started!</h3>
+
+            <p>
+                Looking for texts in a different language? Activate that language and open
+                the text editor on that page instead.
+            </p>
+        </div>
+
+        <div class="djtext_editor">
+            <h3>Editing <span class="djtext_text_name"></span></h3>
+            <form id="djtext_form" method="post" action="{% url 'django_text:update_text' text_id=0 %}">
+                {% csrf_token %}
+
+                {{ form }}
+
+                <p>
+                    <input type="submit" value="Save" />
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div class="djtext_menu">
+        <h3>
+            Texts on this page
+        </h3>
+
+        <ul>
+            {% for text in texts %}
+                <li data-name="{{ text }}">{{ text }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<script src="{% static 'text/bundle/zepto-1.1.6/zepto.min.js' %}"></script>
+<script src="{% static 'text/js/toolbar.js' %}"></script>
+
+{{ form.media }}

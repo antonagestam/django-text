@@ -37,9 +37,9 @@
     }
 
     $(function () {
-        var textarea = $(".markdown"),
-            editor = $(".editor"),
-            type_select = $('#id_type');
+        var textarea = $(".djtext_editor_input"),
+            editor = $(".djtext_html_editor"),
+            type_select = editor.parents('form').find('[id$="type"]');
 
         function set_mode(mode) {
             if (mode == 'html') {
@@ -59,4 +59,12 @@
         });
     });
 
-}(django.jQuery));
+}(
+    (function () {
+        "use strict";
+        if (window.hasOwnProperty('Zepto')) {
+            return window.Zepto;
+        }
+        return window.django.jQuery;
+    }())
+));

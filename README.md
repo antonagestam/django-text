@@ -51,6 +51,17 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 ```
 
+Append `text.urls` to your urlpatterns in `urls.py`.
+
+```python
+# urls.py
+
+import text
+
+urlpatterns += url(r'^django_text/', include(text.urls))
+```
+
+
 Run `migrate`.
 
 ```shell
@@ -121,21 +132,36 @@ If this is not provided both will default to raw text.
 
 ### Content editing
 
-![django-text in action](/docs/printscreen.png)
+The toolbar allows you to edit texts directly on your pages.
+![The django-text toolbar](/docs/printscreen_toolbar.png)
 
-Now add text nodes with the corresponding names in the Django Admin. Currently raw text, [markdown](http://daringfireball.net/projects/markdown/) and HTML is supported. The editor
-is only implemented for HTML nodes, markdown and text types will show up as a normal
-textarea.
+You can also edit texts in the Django Admin.
+![django-text in Django Admin](/docs/printscreen_admin.png)
 
 Missing text nodes will be added to the database automatically when their
-template tags are rendered. Blocktags will be added with their default
-text and inline tags will be added with the name of the node as the text content.
+template tags are rendered.
 
-To disable automatic updating of missing text nodes add the following to your settings.
 
-```python
-AUTOPOPULATE_TEXT = False
-```
+## Settings
+
+__AUTOPOPULATE_TEXT__
+
+Default: `True`
+
+Set to false to disable django-text from adding missing text nodes to the database.
+
+__TEXT_TOOLBAR_ENABLED__
+
+Default: `True`
+
+Set to false to disable the toolbar interface.
+
+__TEXT_TOOLBAR_FORM_PREFIX__
+
+Default: `'djtext_form'`
+
+This is passed to the toolbar form and can be changed to avoid name conflicts.
+
 
 ## Contribution
 

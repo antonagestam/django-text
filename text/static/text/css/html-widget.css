@@ -1,4 +1,4 @@
-.editor {
+.djtext_html_editor {
     display: inline-block;
     outline: none;
     padding: 50px 50px 65px;
@@ -6,8 +6,9 @@
     box-sizing: border-box;
 }
 
-form .editor p {
+form .djtext_html_editor p {
     margin-bottom: 1em !important;
+    margin-top: 0;
     margin-left: 0;
     padding-left: 0;
     font-size: 1.3em;
@@ -16,7 +17,7 @@ form .editor p {
     line-height: 1.8;
 }
 
-form .editor h1 {
+form .djtext_html_editor h1 {
     padding-left: 0;
     font-size: 3em;
     font-weight: normal;
@@ -27,8 +28,7 @@ form .editor h1 {
     line-height: 1.2;
 }
 
-form .editor h2 {
-    padding-left: 0;
+form .djtext_html_editor h2 {
     font-weight: normal;
     font-family: 'Lora', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: black;
@@ -36,4 +36,6 @@ form .editor h2 {
     margin: 1.5em 0 1em !important;
     text-shadow: none !important;
     line-height: 1.2;
+    padding: 0;
+    background: none;
 }
