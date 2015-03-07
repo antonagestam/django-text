@@ -1,6 +1,7 @@
 from django import template
 
 from text.models import Text
+from text.conf import settings
 
 register = template.Library()
 
@@ -36,8 +37,13 @@ class TextNode(template.Node):
         context['request'].text_register.append(text_name)
 
     def get_placeholder(self, context):
+        placeholder = "{{ text_placeholder_%s }}"
         text_name = self.resolved_text_name(context)
-        return "{{ text_placeholder_%s }}" % text_name
+        if settings.TOOLBAR_INSTANT_UPDATE:
+            before, after = settings.INLINE_WRAPPER
+            before = before.format(text_name, settings.INLINE_WRAPPER_CLASS)
+            placeholder = ''.join((before, placeholder, after))
+        return placeholder % text_name
 
     def render(self, context):
         text_name = self.resolved_text_name(context)

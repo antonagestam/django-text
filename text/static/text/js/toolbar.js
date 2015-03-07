@@ -13,7 +13,9 @@
         url_post_pattern = form.attr('action'),
         editor = $('.djtext_editor'),
         editor_element = $('.djtext_html_editor', form),
+        content_element = $('.djtext_editor_input'),
         text_id = null,
+        text_name = null,
         csrf_input = $('[name=csrfmiddlewaretoken]', form),
         name_element = $('.djtext_text_name'),
         start_element = $('.djtext_editor_start');
@@ -67,24 +69,30 @@
         $.getJSON(url, function (response) {
             update_editor(response);
             text_id = response.id;
+            text_name = response.name;
+        });
+    }
+
+    function save_form() {
+        $.ajax({
+            url: post_url(),
+            type: 'POST',
+            data: form.serialize(),
+            dataType: 'JSON',
+            headers: {
+                'X-CSRFToken': csrf_input.val()
+            },
+            success: function () {
+                var selector = '.' + toolbar.data('inline-wrapper-class') + '[data-text-name="' + text_name + '"]';
+                $(selector).html(content_element.val());
+            }
         });
     }
 
     function init_form() {
         form.on('submit', function (e) {
             e.preventDefault();
-            $.ajax({
-                url: post_url(),
-                type: 'POST',
-                data: form.serialize(),
-                dataType: 'JSON',
-                headers: {
-                    'X-CSRFToken': csrf_input.val()
-                },
-                success: function (response) {
-                    console.log(response);
-                }
-            });
+            save_form();
             return false;
         });
     }

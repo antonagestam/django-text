@@ -70,6 +70,7 @@ class ToolbarMiddleware(object):
             'texts': texts,
             'language': get_language(),
             'form': form,
+            'inline_wrapper_class': settings.INLINE_WRAPPER_CLASS,
         })
         insert_before = '</body>'
         pattern = re.escape(insert_before)

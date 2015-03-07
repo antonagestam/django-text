@@ -162,6 +162,24 @@ Default: `'djtext_form'`
 
 This is passed to the toolbar form and can be changed to avoid name conflicts.
 
+__TEXT_TOOLBAR_INSTANT_UPDATE__
+
+Default: `True`
+
+Set to false to disable instant updating of the DOM when saving texts in the toolbar.
+
+__TEXT_INLINE_WRAPPER__
+
+Default: `('<span data-text-name="{0}" class="{1}">', '</span>')`
+
+A tuple of two that gets wrapped around texts in the template to enable instant updating.
+
+__TEXT_INLINE_WRAPPER_CLASS__
+
+Default: `'dj_text_inline_wrapper'`
+
+Change this to change the class of the element that gets wrapped around texts.
+
 
 ## Contribution
 
