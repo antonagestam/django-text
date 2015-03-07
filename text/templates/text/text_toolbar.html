@@ -6,7 +6,10 @@
     Edit texts
 </div>
 
-<div id="djtext_toolbar" data-language="{{ language }}" data-url-pattern="{% url 'django_text:text' text_slug='__id__' %}">
+<div id="djtext_toolbar"
+     data-language="{{ language }}"
+     data-url-pattern="{% url 'django_text:text' text_slug='__id__' %}"
+     data-inline-wrapper-class="{{ inline_wrapper_class }}">
     <div class="djtext_close_toolbar">Hide</div>
 
     <div class="djtext_editor_wrapper">
