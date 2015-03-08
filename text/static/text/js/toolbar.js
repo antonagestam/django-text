@@ -35,6 +35,7 @@
            $("#djtext_form").submit();
            toolbar.toggleClass("toggle");
            body.css('overflow', 'visible');
+           $(this).hide();
     });
 
     $('#djtext_form').on('input propertychange paste', function() {
