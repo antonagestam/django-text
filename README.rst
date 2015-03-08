@@ -5,8 +5,6 @@ django-text
 
 Intuitive text editing for the Django Admin.
 
-:warning:
-
 This project is in early development, will change rapidly and most
 likely has bugs.
 
