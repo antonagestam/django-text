@@ -6,7 +6,7 @@ from setuptools import find_packages
 setup(
     name='django-text',
     description='Intuitive text editing for the Django Admin.',
-    version='1.5.2',
+    version='1.5.3',
     long_description=open('README.rst').read(),
     author='Anton Agestam',
     author_email='msn@antonagestam.se',

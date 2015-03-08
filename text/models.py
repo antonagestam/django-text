@@ -20,7 +20,7 @@ class Text(models.Model):
     type = models.CharField(
         choices=TYPES,
         blank=False,
-        default=TYPE_MARKDOWN,
+        default=TYPE_TEXT,
         max_length=20)
     language = models.CharField(
         choices=settings.LANGUAGES,
@@ -47,10 +47,6 @@ class Text(models.Model):
     def render(self):
         render = getattr(self, 'render_{0}'.format(self.type))
         return mark_safe(render(self.body))
-
-    def save(self, *args, **kwargs):
-        ret_val = super(Text, self).save(*args, **kwargs)
-        return ret_val
 
     @property
     def text_id(self):
