@@ -1,18 +1,29 @@
 #djtext_toolbar {
     position: fixed;
-    bottom: 0;
     left: 0;
-    right: 0;
-    top: 0;
+    top: 100%;
     background: #f9f9f9;
     color: #333;
-    display: none;
     padding: 20px 50px;
     font-family: 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
     font-size: 16px;
     font-weight: 300;
-    overflow-x: scroll;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    display: inline-block;
+    transition: all 0.4s ease;
+    -webkit-transition: all 0.4s ease;
+    -webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	z-index: 10;
 }
+
+#djtext_toolbar.toggle {
+    top: 0;
+}
+
 
 #djtext_toolbar h3 {
     font-size: 1.17em;
@@ -38,6 +49,24 @@
     color: black;
     border-color: white;
     text-decoration: underline;
+}
+
+.djtext_submit {
+    width: 100%;
+    background: #7ec3cd;
+    padding: 10px 0 10px 0;
+    border: 0;
+    outline: none;
+    text-transform: uppercase;
+    color: white;
+    display: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    -webkit-transition: all 0.2s ease;
+}
+
+.djtext_submit:hover {
+    background: #6fb1bb;
 }
 
 @media (max-width: 900px) {

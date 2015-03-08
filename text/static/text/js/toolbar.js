@@ -22,16 +22,24 @@
 
     function toggle_toolbar() {
         if (toolbar_active) {
-            toolbar.hide();
-            handle.show();
+            toolbar.removeClass("toggle");
             body.css('overflow', 'visible');
         } else {
-            toolbar.show();
-            handle.hide();
+            toolbar.addClass("toggle");
             body.css('overflow', 'hidden');
         }
         toolbar_active = !toolbar_active;
     }
+
+    $(".djtext_submit").click(function() {
+           $("#djtext_form").submit();
+           toolbar.toggleClass("toggle");
+           body.css('overflow', 'visible');
+    });
+
+    $('#djtext_form').on('input propertychange paste', function() {
+        $(".djtext_submit").show();
+    });
 
     function init_toolbar_handles() {
         handle.on('click', toggle_toolbar);
