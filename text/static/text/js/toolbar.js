@@ -38,7 +38,15 @@
            $(this).hide();
     });
 
+    var changes = 0;
+
     $('#djtext_form').on('input propertychange paste', function() {
+        changes++;
+        if (changes > 1) {
+            $(".msg").text(changes + " changes made");
+        } else {
+            $(".msg").text("1 change made");
+        }
         $(".djtext_submit").show();
     });
 

@@ -69,6 +69,11 @@
     background: #6fb1bb;
 }
 
+.msg {
+    color: #ccc;
+    font-size: 12px;
+}
+
 @media (max-width: 900px) {
     #djtext_toolbar_handle {
         display: none;
