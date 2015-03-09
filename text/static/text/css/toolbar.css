@@ -15,13 +15,13 @@
     transition: all 0.4s ease;
     -webkit-transition: all 0.4s ease;
     -webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	z-index: 10;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    z-index: 10;
 }
 
-#djtext_toolbar.toggle {
-    top: 0;
+#djtext_toolbar.djtext_toggle {
+    top: 10%;
 }
 
 
@@ -69,7 +69,7 @@
     background: #6fb1bb;
 }
 
-.msg {
+.djtext_message {
     color: #ccc;
     font-size: 12px;
 }
