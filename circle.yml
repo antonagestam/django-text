@@ -1,0 +1,9 @@
+machine:
+  python:
+    version: 2.7.5
+test:
+  override:
+    - export PYTHONPATH=`pwd`; runtests.py --settings='text.tests.settings'
+dependencies:
+  override:
+    - pip install -r test-requirements.txt

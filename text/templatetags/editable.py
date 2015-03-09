@@ -7,13 +7,16 @@ register = template.Library()
 
 
 class TextNode(template.Node):
-    def __init__(self, text_name, default_text=None, text_type=Text.TYPE_TEXT):
+    def __init__(self, text_name, default_text='', text_type=Text.TYPE_TEXT):
         self.text_name = text_name
-        if default_text is not None:
-            self.default_text = default_text
-        else:
-            self.default_text = self.text_name
+        if not isinstance(default_text, template.FilterExpression):
+            default_text = template.FilterExpression(default_text, template.Parser([]))
+        if default_text.token.replace('"', '').replace("'", '') == '' or not default_text:
+            default_text = text_name
+        self.default_text = default_text
         self.type = text_type
+        if not isinstance(self.type, template.FilterExpression):
+            self.type = template.FilterExpression(self.type, template.Parser([]))
 
     def resolved_text_name(self, context):
         text_name = self.text_name.resolve(context)

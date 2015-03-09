@@ -47,14 +47,8 @@ class TextMiddleware(object):
         texts = Text.objects.filter(
             name__in=request.text_register,
             language=language)
-        if hasattr(request, 'text_default_register'):
-            defaults = request.text_default_register
-        else:
-            defaults = {}
-        if hasattr(request, 'text_type_register'):
-            types = request.text_type_register
-        else:
-            types = {}
+        defaults = getattr(request, 'text_default_register', {})
+        types = getattr(request, 'text_type_register', {})
         context = Context(build_context(texts, defaults, types))
         return SimpleTemplateResponse(template, context)
 
