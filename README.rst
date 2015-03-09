@@ -28,15 +28,16 @@ Add ``text`` to your installed packages.
         'text',
     )
 
-Add ``text.middleware.TextMiddleware`` to your middleware.
+Add ``text.middleware.TextMiddleware`` and ``'text.middleware.ToolbarMiddleware'`` to your middleware classes.
 
 .. code:: python
 
     # settings.py
 
-    MIDDLEWARE = (
+    MIDDLEWARE_CLASSES = (
         # ...
         'text.middleware.TextMiddleware',
+        'text.middleware.ToolbarMiddleware',
     )
 
 Make sure these context processors are installed, they come with Django.
