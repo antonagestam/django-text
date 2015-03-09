@@ -28,10 +28,6 @@
                 {% csrf_token %}
 
                 {{ form }}
-
-                <p>
-                    <input type="submit" value="Save" />
-                </p>
             </form>
         </div>
     </div>
@@ -46,6 +42,10 @@
                 <li data-name="{{ text }}">{{ text }}</li>
             {% endfor %}
         </ul>
+
+        <p class="djtext_message"></p>
+        <input type="submit" class="djtext_submit" value="Save" />
+
     </div>
 </div>
 

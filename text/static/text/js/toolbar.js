@@ -18,20 +18,37 @@
         text_name = null,
         csrf_input = $('[name=csrfmiddlewaretoken]', form),
         name_element = $('.djtext_text_name'),
-        start_element = $('.djtext_editor_start');
+        start_element = $('.djtext_editor_start'),
+        submit = $(".djtext_submit"),
+        message = $(".djtext_message"),
+        changes = 0;
 
     function toggle_toolbar() {
         if (toolbar_active) {
-            toolbar.hide();
-            handle.show();
+            toolbar.removeClass("djtext_toggle");
             body.css('overflow', 'visible');
         } else {
-            toolbar.show();
-            handle.hide();
+            toolbar.addClass("djtext_toggle");
             body.css('overflow', 'hidden');
         }
         toolbar_active = !toolbar_active;
     }
+
+    submit.click(function() {
+        form.submit();
+        toggle_toolbar();
+        submit.hide();
+    });
+
+    form.on('input propertychange paste', function() {
+        changes++;
+        if (changes > 1) {
+            message.text(changes + " changes made during this session");
+        } else {
+            message.text("1 change made during this session");
+        }
+        submit.show();
+    });
 
     function init_toolbar_handles() {
         handle.on('click', toggle_toolbar);
