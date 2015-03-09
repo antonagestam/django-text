@@ -20,7 +20,6 @@
         name_element = $('.djtext_text_name'),
         start_element = $('.djtext_editor_start'),
         submit = $(".djtext_submit"),
-        form = $("#djtext_form"),
         message = $(".djtext_message"),
         changes = 0;
 
