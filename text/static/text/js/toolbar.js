@@ -53,7 +53,6 @@
     function init_toolbar_handles() {
         handle.on('click', toggle_toolbar);
         closer.on('click', toggle_toolbar);
-        //toggle_toolbar();
     }
 
     function get_text_slug(name) {
