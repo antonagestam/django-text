@@ -5,7 +5,7 @@ django-text
 |Get downloads at https://pypi.python.org/pypi/django-text|
 |See latest build status at https://circleci.com/gh/antonagestam/django-text/tree/master|
 
-Intuitive text editing for the Django Admin.
+Intuitive text editing for humans using Django.
 
 This project is in early development, will change rapidly and most
 likely has bugs.
