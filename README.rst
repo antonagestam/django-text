@@ -60,9 +60,14 @@ Append ``text.urls`` to your urlpatterns in ``urls.py``.
 
     # urls.py
 
-    import text
+    from django.conf.urls import patterns, include, url
 
-    urlpatterns += url(r'^django_text/', include(text.urls))
+    from text.urls import urlpatterns as django_text_patterns
+    
+    
+    urlpatterns = patterns('',
+        url(r'^django_text/', include(django_text_patterns, namespace='django_text')),
+    )
 
 Run ``migrate``.
 
