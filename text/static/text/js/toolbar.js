@@ -20,15 +20,16 @@
         name_element = $('.djtext_text_name'),
         start_element = $('.djtext_editor_start'),
         submit = $(".djtext_submit"),
-        message = $(".djtext_message"),
-        changes = 0;
+        menu = $(".djtext_toolbar_menu", toolbar);
 
     function toggle_toolbar() {
         if (toolbar_active) {
             toolbar.removeClass("djtext_toggle");
+            menu.hide();
             body.css('overflow', 'visible');
         } else {
             toolbar.addClass("djtext_toggle");
+            menu.show();
             body.css('overflow', 'hidden');
         }
         toolbar_active = !toolbar_active;
@@ -38,16 +39,6 @@
         form.submit();
         toggle_toolbar();
         submit.hide();
-    });
-
-    form.on('input propertychange paste', function() {
-        changes++;
-        if (changes > 1) {
-            message.text(changes + " changes made during this session");
-        } else {
-            message.text("1 change made during this session");
-        }
-        submit.show();
     });
 
     function init_toolbar_handles() {
@@ -84,6 +75,7 @@
             url = get_url(name);
         $.getJSON(url, function (response) {
             update_editor(response);
+            toolbar.scrollTop(0);
             text_id = response.id;
             text_name = response.name;
         });
@@ -121,6 +113,7 @@
         init_toolbar_handles();
         init_text_menu();
         init_form();
+        toggle_toolbar();
     }
 
     $(init);
