@@ -6,6 +6,8 @@
     Edit texts
 </div>
 
+<div id="djtext_alert">No changes applied</div>
+
 <div id="djtext_toolbar"
      data-language="{{ language }}"
      data-url-pattern="{% url 'django_text:text' text_slug='__id__' %}"
@@ -43,7 +45,6 @@
             {% endfor %}
         </ul>
 
-        <p class="djtext_message"></p>
         <input type="submit" class="djtext_submit" value="Save" />
 
     </div>

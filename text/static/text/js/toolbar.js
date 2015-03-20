@@ -20,8 +20,10 @@
         name_element = $('.djtext_text_name'),
         start_element = $('.djtext_editor_start'),
         submit = $(".djtext_submit"),
-        message = $(".djtext_message"),
-        changes = 0;
+        alert_message = $("#djtext_alert"),
+        changes = 0,
+        sessions = [];
+
 
     function toggle_toolbar() {
         if (toolbar_active) {
@@ -30,24 +32,22 @@
         } else {
             toolbar.addClass("djtext_toggle");
             body.css('overflow', 'hidden');
+            alert_message.removeClass("view");
         }
         toolbar_active = !toolbar_active;
-    }
+    }   
+
+    form.on('input propertychange paste', function() {
+        changes++;
+        submit.show();
+    });
 
     submit.click(function() {
         form.submit();
         toggle_toolbar();
         submit.hide();
-    });
-
-    form.on('input propertychange paste', function() {
-        changes++;
-        if (changes > 1) {
-            message.text(changes + " changes made during this session");
-        } else {
-            message.text("1 change made during this session");
-        }
-        submit.show();
+        sessions[sessions.length] = changes; 
+        alert_message.addClass("view");
     });
 
     function init_toolbar_handles() {
@@ -103,6 +103,18 @@
                 $(selector).html(content_element.val());
             }
         });
+        session();
+    }
+
+    function session() {
+        var session_changes = changes - sessions[sessions.length-1];
+        if (session_changes > 0) {
+            alert_message.text("Applied " + session_changes + " changes");
+        } else if (changes == 1) {
+            alert_message.text("Applied " + changes + " change");
+        } else {
+            alert_message.text("Applied " + changes + " changes");
+        }
     }
 
     function init_form() {
