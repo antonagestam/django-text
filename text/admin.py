@@ -6,7 +6,8 @@ from .widgets import HTMLEditorWidget
 
 
 class TextAdmin(admin.ModelAdmin):
-    list_display = ('name', 'language', )
+    list_display = ('name', 'language', 'type', )
+    search_fields = ('name', )
     formfield_overrides = {
         models.TextField: {'widget': HTMLEditorWidget},
     }

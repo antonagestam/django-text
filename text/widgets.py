@@ -1,10 +1,9 @@
 from django import forms
-from django.utils.safestring import mark_safe
 from django.utils.html import format_html
 from django.forms.utils import flatatt
 from django.utils.encoding import force_text
 
-import markdown
+from text.models import Text
 
 
 MARKDOWN_TEMPLATE = u"""
@@ -38,7 +37,8 @@ class HTMLEditorWidget(forms.widgets.Textarea):
         if value is None:
             value = ''
         final_attrs = self.build_attrs(attrs, name=name)
-        rendered = mark_safe(markdown.markdown(value, output_format='html5'))
+        t = Text(type=Text.TYPE_HTML, body=value)
+        rendered = t.render()
         return format_html(
             MARKDOWN_TEMPLATE,
             flatatt(final_attrs),
