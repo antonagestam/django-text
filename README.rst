@@ -211,7 +211,7 @@ bundled code.
 
 .. |Join the chat at https://gitter.im/antonagestam/django-text| image:: https://badges.gitter.im/Join%20Chat.svg
    :target: https://gitter.im/antonagestam/django-text?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
-.. |Get downloads at https://pypi.python.org/pypi/django-text| image:: https://pypip.in/v/django-text/badge.png
+.. |Get downloads at https://pypi.python.org/pypi/django-text| image:: https://pypip.in/version/django-text/badge.svg
    :target: https://pypi.python.org/pypi/django-text
 .. |See latest build status at https://circleci.com/gh/antonagestam/django-text/tree/master| image:: https://circleci.com/gh/antonagestam/django-text.png?style=shield
    :target: https://circleci.com/gh/antonagestam/django-text/tree/master
