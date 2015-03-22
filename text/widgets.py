@@ -19,7 +19,7 @@ class HTMLEditorWidget(forms.widgets.Textarea):
                 'text/bundle/medium-editor-3.0.0/css/medium-editor.min.css',
                 'text/bundle/medium-editor-3.0.0/css/themes/default.min.css',
                 'text/css/html-widget.css',
-                'http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic&subset=latin,latin-ext',
+                '//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic&subset=latin,latin-ext',
             )
         }
         js = (

@@ -156,12 +156,13 @@
     right: 0;
     padding: 20px 50px;
     display: none;
-}
-
-.djtext_text_name {
-    font-weight: bold;
+    z-index: 11;
 }
 
 .djtext_toolbar_menu_tools {
     opacity: 0;
+}
+
+.djtext_text_name {
+    font-weight: bold;
 }
