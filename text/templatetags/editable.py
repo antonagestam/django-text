@@ -27,7 +27,7 @@ class TextNode(template.Node):
     def set_default(self, text_name, context, content):
         if not hasattr(context['request'], 'text_default_register'):
             context['request'].text_default_register = {}
-        context['request'].text_default_register[text_name] = content
+        context['request'].text_default_register[text_name] = content.strip()
 
     def set_type(self, text_name, context, text_type):
         if not hasattr(context['request'], 'text_type_register'):

@@ -10,7 +10,14 @@
      data-language="{{ language }}"
      data-url-pattern="{% url 'django_text:text' text_slug='__id__' %}"
      data-inline-wrapper-class="{{ inline_wrapper_class }}">
-    <div class="djtext_close_toolbar">Hide</div>
+
+    <div class="djtext_toolbar_menu">
+        <div class="djtext_close_toolbar">Hide</div>
+        <div class="djtext_toolbar_menu_tools">
+            Editing <span class="djtext_text_name"></span>
+            <input type="submit" class="djtext_submit" value="Save" />
+        </div>
+    </div>
 
     <div class="djtext_editor_wrapper">
         <div class="djtext_editor_start">
@@ -23,7 +30,6 @@
         </div>
 
         <div class="djtext_editor">
-            <h3>Editing <span class="djtext_text_name"></span></h3>
             <form id="djtext_form" method="post" action="{% url 'django_text:update_text' text_id=0 %}">
                 {% csrf_token %}
 
@@ -42,10 +48,6 @@
                 <li data-name="{{ text }}">{{ text }}</li>
             {% endfor %}
         </ul>
-
-        <p class="djtext_message"></p>
-        <input type="submit" class="djtext_submit" value="Save" />
-
     </div>
 </div>
 
