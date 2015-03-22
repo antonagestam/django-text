@@ -38,7 +38,6 @@
     submit.click(function() {
         form.submit();
         toggle_toolbar();
-        submit.hide();
     });
 
     function init_toolbar_handles() {
@@ -113,7 +112,6 @@
         init_toolbar_handles();
         init_text_menu();
         init_form();
-        toggle_toolbar();
     }
 
     $(init);
