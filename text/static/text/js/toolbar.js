@@ -19,12 +19,13 @@
         csrf_input = $('[name=csrfmiddlewaretoken]', form),
         name_element = $('.djtext_text_name'),
         start_element = $('.djtext_editor_start'),
-        submit = $(".djtext_submit"),
-        menu = $(".djtext_toolbar_menu", toolbar);
+        submit = $('.djtext_submit'),
+        menu = $('.djtext_toolbar_menu', toolbar),
+        tools = $('.djtext_toolbar_menu_tools', menu);
 
     function toggle_toolbar() {
         if (toolbar_active) {
-            toolbar.removeClass("djtext_toggle");
+            toolbar.removeClass('djtext_toggle');
             menu.hide();
             body.css('overflow', 'visible');
         } else {
@@ -66,6 +67,7 @@
         editor_element.html(text_data.render).focus();
         start_element.hide();
         editor.show();
+        tools.css('opacity', 1);
     }
 
     function load_text() {

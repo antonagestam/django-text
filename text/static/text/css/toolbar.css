@@ -161,3 +161,7 @@
 .djtext_text_name {
     font-weight: bold;
 }
+
+.djtext_toolbar_menu_tools {
+    opacity: 0;
+}
