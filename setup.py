@@ -3,10 +3,13 @@
 from distutils.core import setup
 from setuptools import find_packages
 
+from text import __version__
+
+
 setup(
     name='django-text',
     description='Intuitive text editing for humans using Django.',
-    version='1.5.4',
+    version=__version__,
     long_description=open('README.rst').read(),
     author='Anton Agestam',
     author_email='msn@antonagestam.se',
