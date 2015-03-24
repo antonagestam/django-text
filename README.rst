@@ -7,8 +7,7 @@ django-text
 
 Intuitive text editing for humans using Django.
 
-This project is in early development, will change rapidly and most
-likely has bugs.
+This project is in early development, please test it out and report any bugs!
 
 Installation
 ------------
