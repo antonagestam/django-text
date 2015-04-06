@@ -245,4 +245,4 @@ bundled code.
 .. |The django-text toolbar| image:: /docs/printscreen_toolbar.png
 .. |django-text in Django Admin| image:: /docs/printscreen_admin.png
 .. |Coverage| image:: https://coveralls.io/repos/antonagestam/django-text/badge.svg?branch=coverage
-   :target: https://coveralls.io/r/antonagestam/django-text?branch=coverage
+   :target: https://coveralls.io/r/antonagestam/django-text?branch=master
