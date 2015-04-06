@@ -1,0 +1,5 @@
+[run]
+include =
+    ./text/*
+omit =
+    */migrations/*
