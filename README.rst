@@ -4,10 +4,12 @@ django-text
 |Join the chat at https://gitter.im/antonagestam/django-text|
 |Get downloads at https://pypi.python.org/pypi/django-text|
 |See latest build status at https://circleci.com/gh/antonagestam/django-text/tree/master|
+|Coverage|
 
 Intuitive text editing for humans using Django.
 
 This project is in early development, please test it out and report any bugs!
+
 
 Installation
 ------------
@@ -73,6 +75,7 @@ Run ``migrate``.
 .. code:: shell
 
     $ python manage.py migrate
+
 
 Usage
 -----
@@ -150,6 +153,7 @@ Admin|
 Missing text nodes will be added to the database automatically when
 their template tags are rendered.
 
+
 Settings
 --------
 
@@ -194,12 +198,36 @@ Default: ``'dj_text_inline_wrapper'``
 Change this to change the class of the element that gets wrapped around
 texts.
 
+
 Contribution
 ------------
 
 Contribution is very welcome. Use
 `issues <https://github.com/antonagestam/django-text/issues>`__ to
-report bugs and propose features.
+report bugs and propose features. For pull requests to be accepted
+they need to be well tested.
+
+Running tests
+~~~~~~~~~~~~~
+
+Install test dependencies.
+
+```shell
+pip install -r test-requirements.txt
+```
+
+Run tests.
+
+```shell
+export PYTHONPATH=`pwd`; runtests.py --settings='text.tests.settings'
+```
+
+Run tests with coverage.
+
+```shell
+export PYTHONPATH=`pwd`; coverage run `which runtests.py` --settings='text.tests.settings'
+```
+
 
 License
 -------
@@ -216,3 +244,5 @@ bundled code.
    :target: https://circleci.com/gh/antonagestam/django-text/tree/master
 .. |The django-text toolbar| image:: /docs/printscreen_toolbar.png
 .. |django-text in Django Admin| image:: /docs/printscreen_admin.png
+.. |Coverage| image:: https://coveralls.io/repos/antonagestam/django-text/badge.svg?branch=coverage
+   :target: https://coveralls.io/r/antonagestam/django-text?branch=coverage

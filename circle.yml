@@ -3,7 +3,7 @@ machine:
     version: 2.7.5
 test:
   override:
-    - export PYTHONPATH=`pwd`; runtests.py --settings='text.tests.settings'
+    - export PYTHONPATH=`pwd`; coverage run `which runtests.py` --settings='text.tests.settings'; coveralls
 dependencies:
   override:
-    - pip install -r test-requirements.txt
+    - pip install -r test-requirements.txt; pip install coveralls
