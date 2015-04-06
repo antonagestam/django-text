@@ -212,21 +212,21 @@ Running tests
 
 Install test dependencies.
 
-```shell
-pip install -r test-requirements.txt
-```
+.. code:: shell
+
+    $ pip install -r test-requirements.txt
 
 Run tests.
 
-```shell
-export PYTHONPATH=`pwd`; runtests.py --settings='text.tests.settings'
-```
+.. code:: shell
+
+    $ export PYTHONPATH=`pwd`; runtests.py --settings='text.tests.settings'
 
 Run tests with coverage.
 
-```shell
-export PYTHONPATH=`pwd`; coverage run `which runtests.py` --settings='text.tests.settings'
-```
+.. code:: shell
+
+    $ export PYTHONPATH=`pwd`; coverage run `which runtests.py` --settings='text.tests.settings'
 
 
 License
