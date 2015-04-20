@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.template import FilterExpression, Parser
 from django.http import HttpRequest
 
-from text.templatetags.editable import TextNode
+from text.templatetags.text import TextNode
 from text.conf import settings
 
 

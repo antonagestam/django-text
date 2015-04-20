@@ -1,7 +1,7 @@
 from django import template
 
-from text.models import Text
-from text.conf import settings
+from ..models import Text
+from ..conf import settings
 
 register = template.Library()
 
@@ -69,8 +69,8 @@ class BlockTextNode(TextNode):
         return self.get_placeholder(context)
 
 
-@register.tag(name='editable')
-def editable(parser, token):
+@register.tag(name='text')
+def text(parser, token):
     bits = token.split_contents()
     text_name = bits[1]
     try:
@@ -85,9 +85,9 @@ def editable(parser, token):
     return TextNode(text_name, default, text_type)
 
 
-@register.tag(name='blockeditable')
-def blockeditable(parser, token):
-    nodelist = parser.parse(('endblockeditable', ))
+@register.tag(name='blocktext')
+def blocktext(parser, token):
+    nodelist = parser.parse(('endblocktext', ))
     parser.delete_first_token()
     bits = token.split_contents()
     text_name = parser.compile_filter(bits[1])
