@@ -8,7 +8,7 @@ from mock import patch
 from text.middleware import build_context, create_text, TextMiddleware
 from text.models import Text
 from text.conf import settings
-from text.templatetags.editable import TextNode
+from text.templatetags.text import TextNode
 
 
 class TestBuildContext(TestCase):

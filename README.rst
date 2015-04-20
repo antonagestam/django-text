@@ -80,45 +80,49 @@ Run ``migrate``.
 Usage
 -----
 
-The ``editable`` tag
-~~~~~~~~~~~~~~~~~~~~
+The ``text`` tag
+~~~~~~~~~~~~~~~~
 
 Add ``editable`` tags to your templates.
 
 .. code:: html
 
-    <h1>{% editable "header" "My Header" %}</h1>
+    {% load text %}
+
+    <h1>{% text "header" "My Header" %}</h1>
 
     <div class="content">
-        {% editable "text_body" %}
+        {% text "text_body" %}
     </div>
 
-The ``editable`` tag takes a default text as the second argument. If no
+The ``text`` tag takes a default text as the second argument. If no
 default text is passed, the name of the text node (i.e. the first
 argument) will be used if there is no corresponding text node in the
 database.
 
-The ``blockeditable`` tag
-~~~~~~~~~~~~~~~~~~~~~~~~~
+The ``blocktext`` tag
+~~~~~~~~~~~~~~~~~~~~~
 
-You can also use the ``blockeditable`` tag that let's you wrap content
+You can also use the ``blocktext`` tag that let's you wrap content
 to use as the default text.
 
 .. code:: html
 
+    {% load text %}
+
     <div class="content">
         <h1>
-            {% blockeditable "header" %}
+            {% blocktext "header" %}
                 Read My Awesome Text
-            {% endblockeditable %}
+            {% endblocktext %}
         </h1>
         
-        {% blockeditable "content" %}
+        {% blocktext "content" %}
             Put your default text here!
-        {% endblockeditable %}
+        {% endblocktext %}
     </div>
 
-The ``blockeditable`` tags works with translation tags inside of it. So
+The ``blocktext`` tags works with translation tags inside of it. So
 if you already have a translated site, you can wrap your content with
 this tag and only add text nodes for some of the languages that you
 support.
@@ -126,20 +130,21 @@ support.
 Specifying content type
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Both the ``editable`` and the ``blockeditable`` tags support specifying
-the content type of its default text.
+Both the ``text`` and the ``blocktext`` tags support specifying
+the content type of its default text. The choices are `"html"`,
+`"markdown"` and `"text"` which is the default.
 
 .. code:: html
 
-    {% editable "html_node" "<h1>Hello World!</h1>" "html" %}
+    {% text "html_node" "<h1>Hello World!</h1>" "html" %}
 
-    {% blockeditable "markdown_node" "markdown" %}
+    {% blocktext "markdown_node" "markdown" %}
     # Hello there,
 
     I can have markdown in my templates!
-    {% endblockeditable %}
+    {% endblocktext %}
 
-If this is not provided both will default to raw text.
+If content type is not provided both will default to text.
 
 Content editing
 ~~~~~~~~~~~~~~~
