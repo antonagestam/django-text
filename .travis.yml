@@ -9,6 +9,6 @@ env:
 install:
   - pip install -r test-requirements.txt
   - pip install -q Django==$DJANGO_VERSION
-script: "coverage run --source=collectfast ./runtests.py"
+script: "export PYTHONPATH=`pwd`; coverage run `which runtests.py` --settings='text.tests.settings';"
 after_success:
   coveralls
