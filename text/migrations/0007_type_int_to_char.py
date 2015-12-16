@@ -5,7 +5,7 @@ from django.db import migrations
 
 
 def populate_type_char(apps, schema_editor):
-    Text = apps.get_model(b'text', b'Text')
+    Text = apps.get_model('text', 'Text')
     types = {
         0: b'text',
         1: b'markdown',

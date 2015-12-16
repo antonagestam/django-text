@@ -1,15 +1,11 @@
+from __future__ import unicode_literals
+
 from django import forms
 from django.utils.html import format_html
 from django.forms.utils import flatatt
 from django.utils.encoding import force_text
 
 from text.models import Text
-
-
-MARKDOWN_TEMPLATE = u"""
-<textarea{0}>\r\n{1}</textarea>
-<div class="djtext_html_editor">{2}</div>
-"""
 
 
 class HTMLEditorWidget(forms.widgets.Textarea):
@@ -40,7 +36,7 @@ class HTMLEditorWidget(forms.widgets.Textarea):
         t = Text(type=Text.TYPE_HTML, body=value)
         rendered = t.render()
         return format_html(
-            MARKDOWN_TEMPLATE,
+            '<textarea{0}>\r\n{1}</textarea><div class="djtext_html_editor">{2}</div>',
             flatatt(final_attrs),
             force_text(value),
             rendered)
