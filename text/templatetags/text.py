@@ -1,6 +1,6 @@
 from django import template
 
-from .simple_block_tag import simple_block_tag
+from ..simple_block_tag import simple_block_tag
 from ..conf import settings
 
 register = template.Library()
