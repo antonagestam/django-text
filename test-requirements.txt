@@ -1,6 +1,4 @@
-click==3.3
-Django==1.7.5
-django-pluggable==0.0.1
+Django>=1.9
 Markdown==2.6.1
 mock==1.0.1
 coverage==3.7.1
