@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.http import HttpRequest
-from django.template import Template, FilterExpression, Parser, Context
+from django.template.base import Template, FilterExpression, Parser, Context
 from django.template.response import SimpleTemplateResponse
 
 from mock import patch
@@ -8,7 +8,6 @@ from mock import patch
 from text.middleware import build_context, create_text, TextMiddleware
 from text.models import Text
 from text.conf import settings
-from text.templatetags.text import TextNode
 
 
 class TestBuildContext(TestCase):
@@ -72,25 +71,20 @@ class TestTextMiddleware(TestCase):
         settings.TOOLBAR_INSTANT_UPDATE = False
         request = HttpRequest()
         context = Context({'request': request})
-        node = TextNode(self.fe(name), self.fe(default)).render(context)
+        node = Template('{%% load text %%}{%% text "%s" "%s" %%}' % (name, default)).render(context)
         template = Template(node)
         response = SimpleTemplateResponse(template, context)
         response.content = node
         mw = TextMiddleware()
         return mw.process_template_response(request, response).render()
 
-    def test_replace_with_default(self):
+    def test_default(self):
         content = "some test content"
         rendered = self.process_template_response('node', content)
-        self.assertEqual(rendered.content, content)
+        self.assertEqual(rendered.content, bytes(content, 'utf-8'))
 
-    def test_replace_no_default(self):
-        name = 'test_node'
-        rendered = self.process_template_response(name)
-        self.assertEqual(rendered.content, name)
-
-    def test_replace_db(self):
+    def test_db(self):
         text = Text(name='db_node', body='my awesome text', type=Text.TYPE_TEXT)
         text.save()
         rendered = self.process_template_response(text.name, default='this is the default')
-        self.assertEqual(rendered.content, text.render())
+        self.assertEqual(rendered.content, bytes(text.render(), 'utf-8'))

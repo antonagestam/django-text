@@ -16,7 +16,7 @@ from .utils import access_toolbar
 def build_context(texts, defaults, types):
     placeholder = "text_placeholder_{0}"
     context = {placeholder.format(t.name): t.render() for t in texts}
-    for name, text in defaults.iteritems():
+    for name, text in defaults.items():
         pname = placeholder.format(name)
         if pname not in context:
             context[pname] = create_text(name, text, types[name]).render()
