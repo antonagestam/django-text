@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.http import HttpRequest
 from django.template.base import Template, FilterExpression, Parser, Context
 from django.template.response import SimpleTemplateResponse
+from django.utils.six import b
 
 from mock import patch
 
@@ -81,10 +82,10 @@ class TestTextMiddleware(TestCase):
     def test_default(self):
         content = "some test content"
         rendered = self.process_template_response('node', content)
-        self.assertEqual(rendered.content, bytes(content, 'utf-8'))
+        self.assertEqual(rendered.content, b(content))
 
     def test_db(self):
         text = Text(name='db_node', body='my awesome text', type=Text.TYPE_TEXT)
         text.save()
         rendered = self.process_template_response(text.name, default='this is the default')
-        self.assertEqual(rendered.content, bytes(text.render(), 'utf-8'))
+        self.assertEqual(rendered.content, b(text.render()))
