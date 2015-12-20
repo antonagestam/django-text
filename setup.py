@@ -18,7 +18,7 @@ setup(
     license='The MIT License (MIT)',
     include_package_data=True,
     zip_safe=False,  # because we're including static files
-    install_requires=['Django>=1.7.4', 'Markdown>=2.6', ],
+    install_requires=['Django>=1.7.4', 'Markdown>=2.6'],
     classifiers=['Programming Language :: Python :: 2.7',
                  'Programming Language :: Python :: 3']
 )
