@@ -271,5 +271,5 @@ bundled code.
    :target: https://circleci.com/gh/antonagestam/django-text/tree/master
 .. |The django-text toolbar| image:: /docs/printscreen_toolbar.png
 .. |django-text in Django Admin| image:: /docs/printscreen_admin.png
-.. |Coverage| image:: https://coveralls.io/repos/antonagestam/django-text/badge.svg?branch=master
+.. |Coverage| image:: https://coveralls.io/repos/antonagestam/django-text/badge.svg?branch=master&service=github
    :target: https://coveralls.io/r/antonagestam/django-text?branch=master
