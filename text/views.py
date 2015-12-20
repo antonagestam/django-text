@@ -20,10 +20,9 @@ class TextView(DetailView):
         queryset = queryset.filter(name=name, language=language)
         try:
             # Get the single item from the filtered queryset
-            obj = queryset.get()
+            return queryset.get()
         except queryset.model.DoesNotExist:
             raise Http404("Found no text with that id")
-        return obj
 
     def get(self, request, *args, **kwargs):
         if not access_toolbar(request):
@@ -37,7 +36,7 @@ class TextView(DetailView):
             'render': self.object.render(),
             'name': self.object.name,
         }
-        return JsonResponse(data=data)
+        return JsonResponse(data)
 
 
 class TextUpdateView(UpdateView):
