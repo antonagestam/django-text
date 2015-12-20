@@ -1,13 +1,13 @@
 from django.test import TestCase
 from django.http import HttpRequest
 from django.template.base import FilterExpression, Parser, Context, Template
-from django.template.backends.django import Template as BackendTemplate, DjangoTemplates
+from django.template.backends.django import DjangoTemplates
 from django.template.response import SimpleTemplateResponse
 from django.utils.six import b
 
 from mock import patch
 
-from text.middleware import build_context, create_text, TextMiddleware
+from text.middleware import build_context, create_text, TextMiddleware, BackendTemplate
 from text.models import Text
 from text.conf import settings
 
@@ -75,7 +75,7 @@ class TestTextMiddleware(TestCase):
         context = Context({'request': request})
         node = Template(
             '{%% load text %%}{%% text "%s" "%s" %%}' % (name, default)).render(context)
-        template = BackendTemplate(node, DjangoTemplates)
+        template = BackendTemplate(node)
         response = SimpleTemplateResponse(template, context)
         response.content = node
         mw = TextMiddleware()
