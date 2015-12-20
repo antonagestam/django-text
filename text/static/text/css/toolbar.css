@@ -161,6 +161,7 @@
 
 .djtext_toolbar_menu_tools {
     opacity: 0;
+    float: left;
 }
 
 .djtext_text_name {
