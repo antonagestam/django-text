@@ -3,3 +3,4 @@ include =
     ./text/*
 omit =
     */migrations/*
+    */vendor/*

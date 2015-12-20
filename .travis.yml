@@ -11,5 +11,6 @@ install:
   - pip install -q Django==$DJANGO_VERSION
 script: make test-coverage
 after_success: make test-coveralls
+before_script: flake8
 notifications:
   email: false

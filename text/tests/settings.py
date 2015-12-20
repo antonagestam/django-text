@@ -28,5 +28,3 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'text.urls'
-
-
