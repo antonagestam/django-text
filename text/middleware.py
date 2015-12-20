@@ -1,11 +1,14 @@
 import re
+from functools import partial
 
 from django.template.response import SimpleTemplateResponse
 from django.template import Template, Context, RequestContext
+from django.template.backends.django import Template as DjangoBackendTemplate, DjangoTemplates
 from django.template.loader import get_template
 from django.utils.translation import get_language
 from django.utils.encoding import force_text
 from django.conf import settings as django_settings
+from django import VERSION
 
 from .conf import settings
 from .models import Text
@@ -13,10 +16,17 @@ from .forms import TextForm
 from .utils import access_toolbar
 
 
+# Handle backend argument introduced in Django 1.9
+if VERSION[1] < 9:
+    BackendTemplate = DjangoBackendTemplate
+else:
+    BackendTemplate = partial(DjangoBackendTemplate, backend=DjangoTemplates)
+
+
 def build_context(texts, defaults, types):
     placeholder = "text_placeholder_{0}"
     context = {placeholder.format(t.name): t.render() for t in texts}
-    for name, text in defaults.iteritems():
+    for name, text in defaults.items():
         pname = placeholder.format(name)
         if pname not in context:
             context[pname] = create_text(name, text, types[name]).render()
@@ -40,7 +50,7 @@ def create_text(name, body, text_type):
 
 class TextMiddleware(object):
     def process_template_response(self, request, response):
-        template = Template(response.render().content)
+        template = BackendTemplate(Template(response.render().content))
         if not hasattr(request, 'text_register'):
             return response
         language = get_language()

@@ -146,6 +146,28 @@ the content type of its default text. The choices are `"html"`,
 
 If content type is not provided both will default to text.
 
+Disable instant updating
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default the templatetags will wrap all text nodes with a span
+element to enable "instant updating", if
+``TEXT_TOOLBAR_INSTANT_UPDATE`` is set to ``True``. Sometimes this
+can cause trouble, for instance when you want to have editable
+texts inside ``<title>`` or ``<meta>`` elements.
+
+You can disable instant updating on per-node basis by setting the
+templatetag keyword argument ``instant_update`` to  ``False``:
+
+.. code:: html
+
+    <title>{% text "title" "Welcome!" instant_update=False %}</title>
+    
+    <title>
+        {% blocktext "block_title" instant_update=False %}
+        Welcome one, welcome all!
+        {% endblocktext %}
+    </title>
+
 Content editing
 ~~~~~~~~~~~~~~~
 
@@ -225,13 +247,13 @@ Run tests.
 
 .. code:: shell
 
-    $ export PYTHONPATH=`pwd`; runtests.py --settings='text.tests.settings'
+    $ make test
 
 Run tests with coverage.
 
 .. code:: shell
 
-    $ export PYTHONPATH=`pwd`; coverage run `which runtests.py` --settings='text.tests.settings'
+    $ make test-coverage
 
 
 License
