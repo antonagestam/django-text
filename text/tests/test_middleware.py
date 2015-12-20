@@ -1,7 +1,6 @@
 from django.test import TestCase
 from django.http import HttpRequest
-from django.template.base import FilterExpression, Parser, Context, Template
-from django.template.backends.django import DjangoTemplates
+from django.template.base import Context, Template
 from django.template.response import SimpleTemplateResponse
 from django.utils.six import b
 
@@ -65,10 +64,6 @@ class TestCreateText(TestCase):
 
 
 class TestTextMiddleware(TestCase):
-    def fe(self, name):
-        fe = FilterExpression('"{0}"'.format(name), Parser([]))
-        return fe
-
     def process_template_response(self, name, default=''):
         settings.TOOLBAR_INSTANT_UPDATE = False
         request = HttpRequest()

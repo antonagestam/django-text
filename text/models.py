@@ -35,6 +35,9 @@ class Text(models.Model):
     def __unicode__(self):
         return self.text_id
 
+    def __str__(self):
+        return self.__unicode__()
+
     def render_markdown(self, text):
         return markdown.markdown(text, output_format='html5')
 

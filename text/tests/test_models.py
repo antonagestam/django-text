@@ -13,3 +13,4 @@ class TestText(TestCase):
     def test_text_id(self):
         t = Text(name='hello', language='sv')
         self.assertEqual(t.text_id, 'hello_sv')
+        self.assertEqual(t.text_id, str(t))
