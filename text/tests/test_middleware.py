@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.http import HttpRequest
-from django.template.base import Template, FilterExpression, Parser, Context
+from django.template.base import FilterExpression, Parser, Context, Template
+from django.template.backends.django import Template as BackendTemplate, DjangoTemplates
 from django.template.response import SimpleTemplateResponse
 from django.utils.six import b
 
@@ -72,8 +73,9 @@ class TestTextMiddleware(TestCase):
         settings.TOOLBAR_INSTANT_UPDATE = False
         request = HttpRequest()
         context = Context({'request': request})
-        node = Template('{%% load text %%}{%% text "%s" "%s" %%}' % (name, default)).render(context)
-        template = Template(node)
+        node = Template(
+            '{%% load text %%}{%% text "%s" "%s" %%}' % (name, default)).render(context)
+        template = BackendTemplate(node, DjangoTemplates)
         response = SimpleTemplateResponse(template, context)
         response.content = node
         mw = TextMiddleware()

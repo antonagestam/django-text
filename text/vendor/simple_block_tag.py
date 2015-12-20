@@ -24,10 +24,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
-from django.template.base import Node, parse_bits
+from django.template.base import Node
 
 from inspect import getargspec
 from functools import partial
+
+from .parse_bits import parse_bits
 
 
 def simple_block_tag(register, takes_context=None, name=None):

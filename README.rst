@@ -225,13 +225,13 @@ Run tests.
 
 .. code:: shell
 
-    $ export PYTHONPATH=`pwd`; runtests.py --settings='text.tests.settings'
+    $ make test
 
 Run tests with coverage.
 
 .. code:: shell
 
-    $ export PYTHONPATH=`pwd`; coverage run `which runtests.py` --settings='text.tests.settings'
+    $ make test-coverage
 
 
 License

@@ -2,6 +2,7 @@ import re
 
 from django.template.response import SimpleTemplateResponse
 from django.template import Template, Context, RequestContext
+from django.template.backends.django import Template as BackendTemplate, DjangoTemplates
 from django.template.loader import get_template
 from django.utils.translation import get_language
 from django.utils.encoding import force_text
@@ -40,7 +41,7 @@ def create_text(name, body, text_type):
 
 class TextMiddleware(object):
     def process_template_response(self, request, response):
-        template = Template(response.render().content)
+        template = BackendTemplate(Template(response.render().content), DjangoTemplates)
         if not hasattr(request, 'text_register'):
             return response
         language = get_language()
