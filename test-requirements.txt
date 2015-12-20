@@ -3,3 +3,4 @@ Markdown==2.6.1
 mock==1.0.1
 coverage==3.7.1
 flake8==2.5.1
+coveralls==1.1
