@@ -52,7 +52,7 @@
 }
 
 .djtext_submit {
-    background: #7ec3cd;
+    background: #21c3ff;
     padding: 10px 50px;
     border: 0;
     outline: none;
@@ -62,10 +62,11 @@
     transition: all 0.2s ease;
     -webkit-transition: all 0.2s ease;
     margin: 0 20px;
+    font: inherit;
 }
 
 .djtext_submit:hover {
-    background: #6fb1bb;
+    background: #20b4e5;
 }
 
 .djtext_message {
@@ -84,6 +85,10 @@
     float: right;
     display: inline-block;
     padding: 8px 0;
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
 }
 
 .djtext_editor_wrapper {
