@@ -8,8 +8,10 @@ from text.conf import settings
 
 load_statement = "{% load text %}"
 
+
 def get_context():
         return Context({'request': HttpRequest()})
+
 
 class TestTextTag(TestCase):
     def test_variable(self):
@@ -75,7 +77,9 @@ class TestGetPlaceholder(TestCase):
         name = 'name_of_text_node'
         settings.TOOLBAR_INSTANT_UPDATE = True
         placeholder = get_placeholder(name, {}, True)
-        expected = '<span data-text-name="name_of_text_node" class="dj_text_inline_wrapper">{{ text_placeholder_name_of_text_node }}</span>'
+        expected = """\
+<span data-text-name="name_of_text_node" class="dj_text_inline_wrapper">\
+{{ text_placeholder_name_of_text_node }}</span>"""
         self.assertEqual(placeholder, expected)
 
     def test_get_placeholder(self):

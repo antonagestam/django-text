@@ -15,6 +15,7 @@ class User(object):
     def has_perm(self, perm):
         return True
 
+
 class InActiveUser(User):
     is_active = False
 
