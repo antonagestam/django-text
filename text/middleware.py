@@ -13,6 +13,7 @@ from django import VERSION
 from .conf import settings
 from .models import Text
 from .forms import TextForm
+from .utils import can_access_toolbar
 
 
 # Handle backend argument introduced in Django 1.9
@@ -60,14 +61,6 @@ class TextMiddleware(object):
         types = getattr(request, 'text_type_register', {})
         context = Context(build_context(texts, defaults, types))
         return SimpleTemplateResponse(template, context)
-
-
-def can_access_toolbar(request):
-    if not settings.TOOLBAR_ENABLED:
-        return False
-    user = request.user
-    return (user.is_authenticated() and user.is_active and user.is_staff and
-            user.has_perm('text.change_text'))
 
 
 class ToolbarMiddleware(object):

@@ -4,7 +4,7 @@ from django.views.generic import DetailView, UpdateView
 from .models import Text
 from .forms import TextForm
 from .conf import settings
-from .utils import access_toolbar
+from .utils import can_access_toolbar
 
 
 class TextView(DetailView):
@@ -25,7 +25,7 @@ class TextView(DetailView):
             raise Http404("Found no text with that id")
 
     def get(self, request, *args, **kwargs):
-        if not access_toolbar(request):
+        if not can_access_toolbar(request):
             raise Http404()
         self.object = self.get_object()
         data = {
@@ -52,7 +52,7 @@ class TextUpdateView(UpdateView):
         return kwargs
 
     def post(self, request, *args, **kwargs):
-        if not access_toolbar(request):
+        if not can_access_toolbar(request):
             raise Http404()
         self.object = self.get_object()
         form_class = self.get_form_class()
