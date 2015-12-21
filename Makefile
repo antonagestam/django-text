@@ -7,5 +7,5 @@ test-coverage:
 test-coveralls:
 	coveralls
 
-dist:
+distribute:
 	python setup.py sdist bdist_wheel upload
