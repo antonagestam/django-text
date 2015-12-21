@@ -1,5 +1,5 @@
 from django import template
-from django.utils.safestring import SafeString
+from django.utils.safestring import SafeData
 
 from ..vendor.simple_block_tag import simple_block_tag
 from ..conf import settings
@@ -41,7 +41,7 @@ def valid_type(type):
 
 
 def is_safestring(var):
-    return isinstance(var, SafeString)
+    return isinstance(var, SafeData)
 
 
 @register.simple_tag(name='text', takes_context=True)
