@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.http import HttpRequest
-from django.template import Template, Context
+from django.template import Template, Context, TemplateSyntaxError
 
 from text.templatetags.text import set_default, set_type, register_node, get_placeholder
 from text.conf import settings
@@ -40,6 +40,19 @@ class TestTextTag(TestCase):
         self.assertEqual(context['request'].text_type_register[node_name], "text")
         self.assertIn(node_name, context['request'].text_register)
 
+    def test_syntax_errors(self):
+        statements = [
+            '{% text %}',
+            '{% text "gotta have a default" %}',
+            '{% text use "quotes" %}',
+            '{% text "srsly" tho %}',
+            '{% text "cant have a " "weird text type, like" "nonsense" %}',
+            '{% text "too" "many" "arguments" "is not cool" "fo sho" %}',
+        ]
+        for statement in statements:
+            with self.assertRaises(TemplateSyntaxError, msg=statement):
+                Template(load_statement + statement).render(get_context())
+
 
 class TestBlockTextTag(TestCase):
     def test_without_node_type(self):
@@ -70,6 +83,19 @@ class TestBlockTextTag(TestCase):
         self.assertEqual(context['request'].text_default_register[node_name], default_text)
         self.assertEqual(context['request'].text_type_register[node_name], node_type)
         self.assertIn(node_name, context['request'].text_register)
+
+    def test_syntax_errors(self):
+        statements = [
+            '{% blocktext %}{% endblocktext %}',
+            '{% blocktext "lol" %}',
+            '{% blocktext use_quotes %}{% endblocktext %}',
+            '{% blocktext "use_quotes" html %}{% endblocktext %}',
+            '{% blocktext "come on, learn the types" html5 %}{% endblocktext %}',
+            '{% blocktext "too" "many" "arguments" "is not cool" %}{% endblocktext %}',
+        ]
+        for statement in statements:
+            with self.assertRaises(TemplateSyntaxError, msg=statement):
+                Template(load_statement + statement).render(get_context())
 
 
 class TestGetPlaceholder(TestCase):
