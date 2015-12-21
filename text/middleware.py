@@ -13,7 +13,6 @@ from django import VERSION
 from .conf import settings
 from .models import Text
 from .forms import TextForm
-from .utils import access_toolbar
 
 
 # Handle backend argument introduced in Django 1.9
@@ -63,10 +62,18 @@ class TextMiddleware(object):
         return SimpleTemplateResponse(template, context)
 
 
+def can_access_toolbar(request):
+    if not settings.TOOLBAR_ENABLED:
+        return False
+    user = request.user
+    return (user.is_authenticated() and user.is_active and user.is_staff and
+            user.has_perm('text.change_text'))
+
+
 class ToolbarMiddleware(object):
     def process_response(self, request, response):
         texts = getattr(request, 'text_register', None)
-        if request.is_ajax() or not texts or not access_toolbar(request):
+        if request.is_ajax() or not texts or not can_access_toolbar(request):
             return response
         toolbar = get_template('text/text_toolbar.html')
         form = TextForm(prefix=settings.TOOLBAR_FORM_PREFIX)
