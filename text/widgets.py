@@ -5,21 +5,21 @@ from django.utils.html import format_html
 from django.forms.utils import flatatt
 from django.utils.encoding import force_text
 
-from text.models import Text
+from .models import Text
 
 
 class HTMLEditorWidget(forms.widgets.Textarea):
     class Media:
         css = {
             'all': (
-                'text/bundle/medium-editor-3.0.0/css/medium-editor.min.css',
-                'text/bundle/medium-editor-3.0.0/css/themes/default.min.css',
+                'text/bundle/medium-editor/css/medium-editor.min.css',
+                'text/bundle/medium-editor/css/themes/default.min.css',
                 'text/css/html-widget.css',
                 '//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic&subset=latin,latin-ext',
             )
         }
         js = (
-            'text/bundle/medium-editor-3.0.0/js/medium-editor.min.js',
+            'text/bundle/medium-editor/js/medium-editor.min.js',
             'text/js/html-widget.js',
         )
 
