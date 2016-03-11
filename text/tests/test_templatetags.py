@@ -28,6 +28,23 @@ class TestTextTag(TestCase):
         self.assertEqual(context['request'].text_type_register[node_name], node_type)
         self.assertIn(node_name, context['request'].text_register)
 
+    def test_with_instant_update(self):
+        settings.TOOLBAR_INSTANT_UPDATE = True
+        context = get_context()
+        node_name = 'a_node'
+        default_text = 'some default content :)'
+        node_type = "html"
+        template = Template(load_statement + """\
+{%% with t="%s" %%}{%% text "%s" t "%s" %%}{%% endwith %%}""" % (default_text, node_name, node_type))
+        output = template.render(context)
+        expected = """\
+<span data-text-name="a_node" class="dj_text_inline_wrapper">{{ text_placeholde\
+r_%s }}</span>""" % node_name
+        self.assertEqual(output, expected)
+        self.assertEqual(context['request'].text_default_register[node_name], default_text)
+        self.assertEqual(context['request'].text_type_register[node_name], node_type)
+        self.assertIn(node_name, context['request'].text_register)
+
     def test_without_node_type(self):
         settings.TOOLBAR_INSTANT_UPDATE = False
         context = get_context()
