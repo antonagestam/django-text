@@ -1,5 +1,5 @@
 from django import template
-from django.utils.safestring import SafeData
+from django.utils.safestring import SafeData, mark_safe
 
 from ..vendor.simple_block_tag import simple_block_tag
 from ..conf import settings
@@ -15,7 +15,7 @@ def get_placeholder(node_name, context, instant_update):
         before, after = settings.INLINE_WRAPPER
         before = before.format(node_name, settings.INLINE_WRAPPER_CLASS)
         placeholder = ''.join((before, placeholder, after))
-    return placeholder % node_name
+    return mark_safe(placeholder % node_name)
 
 
 def set_default(node_name, context, content):
