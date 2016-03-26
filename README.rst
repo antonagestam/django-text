@@ -174,7 +174,7 @@ Content editing
 ~~~~~~~~~~~~~~~
 
 The toolbar allows you to edit texts directly on your pages if you're
-signed in as staff and have the permission `'text.change_text'` or if
+signed in as staff and have the permission ``'text.change_text'`` or if
 you're signed is as a superuser.
 
 Missing text nodes will be added to the database automatically when
