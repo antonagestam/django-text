@@ -49,8 +49,8 @@ def create_text(name, body, text_type):
 
 
 class TextMiddleware(object):
-    def process_template_response(self, request, response):
-        template = BackendTemplate(Template(response.render().content))
+    def process_response(self, request, response):
+        template = BackendTemplate(Template(response.content))
         if not hasattr(request, 'text_register'):
             return response
         language = get_language()
@@ -60,7 +60,8 @@ class TextMiddleware(object):
         defaults = getattr(request, 'text_default_register', {})
         types = getattr(request, 'text_type_register', {})
         context = Context(build_context(texts, defaults, types))
-        return SimpleTemplateResponse(template, context)
+        response.content = template.render(context)
+        return response
 
 
 class ToolbarMiddleware(object):
