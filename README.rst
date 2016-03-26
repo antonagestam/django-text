@@ -8,6 +8,8 @@ django-text
 
 Intuitive text editing for humans using Django.
 
+|The django-text toolbar|
+
 This project is in early development, please test it out and report any bugs!
 
 
@@ -171,11 +173,9 @@ templatetag keyword argument ``instant_update`` to  ``False``:
 Content editing
 ~~~~~~~~~~~~~~~
 
-The toolbar allows you to edit texts directly on your pages. |The
-django-text toolbar|
-
-You can also edit texts in the Django Admin. |django-text in Django
-Admin|
+The toolbar allows you to edit texts directly on your pages if you're
+signed in as staff and have the permission `'text.change_text'` or if
+you're signed is as a superuser.
 
 Missing text nodes will be added to the database automatically when
 their template tags are rendered.
@@ -269,7 +269,6 @@ bundled code.
    :target: https://pypi.python.org/pypi/django-text
 .. |See latest build status at https://circleci.com/gh/antonagestam/django-text/tree/master| image:: https://circleci.com/gh/antonagestam/django-text.png?style=shield
    :target: https://circleci.com/gh/antonagestam/django-text/tree/master
-.. |The django-text toolbar| image:: /docs/printscreen_toolbar.png
-.. |django-text in Django Admin| image:: /docs/printscreen_admin.png
+.. |The django-text toolbar| image:: /docs/django-text.gif
 .. |Coverage| image:: https://coveralls.io/repos/antonagestam/django-text/badge.svg?branch=master&service=github
    :target: https://coveralls.io/r/antonagestam/django-text?branch=master
