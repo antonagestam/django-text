@@ -1,7 +1,6 @@
 import re
 from functools import partial
 
-from django.template.response import SimpleTemplateResponse
 from django.template import Template, Context, RequestContext
 from django.template.backends.django import Template as DjangoBackendTemplate, DjangoTemplates
 from django.template.loader import get_template
