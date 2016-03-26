@@ -1,25 +1,16 @@
 import re
-from functools import partial
 
-from django.template import Template, Context, RequestContext
-from django.template.backends.django import Template as DjangoBackendTemplate, DjangoTemplates
+from django.template import Template
 from django.template.loader import get_template
 from django.utils.translation import get_language
 from django.utils.encoding import force_text
 from django.conf import settings as django_settings
-from django import VERSION
 
 from .conf import settings
 from .models import Text
 from .forms import TextForm
 from .utils import can_access_toolbar
-
-
-# Handle backend argument introduced in Django 1.9
-if VERSION[1] < 9:
-    BackendTemplate = DjangoBackendTemplate
-else:
-    BackendTemplate = partial(DjangoBackendTemplate, backend=DjangoTemplates)
+from .compat import BackendTemplate, render_template
 
 
 def build_context(texts, defaults, types):
@@ -58,8 +49,8 @@ class TextMiddleware(object):
             language=language)
         defaults = getattr(request, 'text_default_register', {})
         types = getattr(request, 'text_type_register', {})
-        context = Context(build_context(texts, defaults, types))
-        response.content = template.render(context)
+        response.content = render_template(
+            template, build_context(texts, defaults, types))
         return response
 
 
@@ -68,14 +59,6 @@ class ToolbarMiddleware(object):
         texts = getattr(request, 'text_register', None)
         if request.is_ajax() or not texts or not can_access_toolbar(request):
             return response
-        toolbar = get_template('text/text_toolbar.html')
-        form = TextForm(prefix=settings.TOOLBAR_FORM_PREFIX)
-        context = RequestContext(request, {
-            'texts': texts,
-            'language': get_language(),
-            'form': form,
-            'inline_wrapper_class': settings.INLINE_WRAPPER_CLASS,
-        })
         insert_before = '</body>'
         pattern = re.escape(insert_before)
         content = force_text(
@@ -83,7 +66,16 @@ class ToolbarMiddleware(object):
         bits = re.split(pattern, content, flags=re.IGNORECASE)
 
         if len(bits) > 1:
-            bits[-2] += toolbar.render(context)
+            toolbar = get_template('text/text_toolbar.html')
+            form = TextForm(prefix=settings.TOOLBAR_FORM_PREFIX)
+            context = {
+                'texts': texts,
+                'language': get_language(),
+                'form': form,
+                'inline_wrapper_class': settings.INLINE_WRAPPER_CLASS,
+            }
+            bits[-2] += render_template(
+                toolbar, context=context, request=request)
             response.content = insert_before.join(bits)
             if response.get('Content-Length', None):
                 response['Content-Length'] = len(response.content)
