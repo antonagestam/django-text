@@ -74,7 +74,7 @@ class TestTextMiddleware(TestCase):
         response = SimpleTemplateResponse(template, context)
         response.content = node
         mw = TextMiddleware()
-        return mw.process_template_response(request, response).render()
+        return mw.process_response(request, response).render()
 
     def test_default(self):
         content = "some test content"

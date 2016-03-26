@@ -1,7 +1,6 @@
 import re
 from functools import partial
 
-from django.template.response import SimpleTemplateResponse
 from django.template import Template, Context, RequestContext
 from django.template.backends.django import Template as DjangoBackendTemplate, DjangoTemplates
 from django.template.loader import get_template
@@ -49,8 +48,8 @@ def create_text(name, body, text_type):
 
 
 class TextMiddleware(object):
-    def process_template_response(self, request, response):
-        template = BackendTemplate(Template(response.render().content))
+    def process_response(self, request, response):
+        template = BackendTemplate(Template(response.content))
         if not hasattr(request, 'text_register'):
             return response
         language = get_language()
@@ -60,7 +59,8 @@ class TextMiddleware(object):
         defaults = getattr(request, 'text_default_register', {})
         types = getattr(request, 'text_type_register', {})
         context = Context(build_context(texts, defaults, types))
-        return SimpleTemplateResponse(template, context)
+        response.content = template.render(context)
+        return response
 
 
 class ToolbarMiddleware(object):
