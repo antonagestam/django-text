@@ -8,6 +8,8 @@ django-text
 
 Intuitive text editing for humans using Django.
 
+|The django-text toolbar|
+
 This project is in early development, please test it out and report any bugs!
 
 
@@ -171,8 +173,9 @@ templatetag keyword argument ``instant_update`` to  ``False``:
 Content editing
 ~~~~~~~~~~~~~~~
 
-The toolbar allows you to edit texts directly on your pages.
-|The django-text toolbar|
+The toolbar allows you to edit texts directly on your pages if you're
+signed in as staff and have the permission `'text.change_text'` or if
+you're signed is as a superuser.
 
 Missing text nodes will be added to the database automatically when
 their template tags are rendered.
