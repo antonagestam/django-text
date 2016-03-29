@@ -3,12 +3,17 @@
 
     function get_editor(editor_element, textarea) {
         var editor = new MediumEditor(editor_element.get(), {
-            firstHeader: 'h1',
-            secondHeader: 'h2'
-        });
+                firstHeader: 'h1',
+                secondHeader: 'h2'
+            }),
+            el = $(editor.elements[0]);
 
-        editor.subscribe('editableInput', function (event, editable) {
+        editor.subscribe('editableInput', function () {
             textarea.val(editor.serialize()['element-0'].value);
+            el.find("span[style]").each(function (_, sp) {
+                sp = $(sp);
+                sp.before(sp.contents()).remove();
+            });
         });
 
         return editor;
