@@ -29,6 +29,9 @@ class TestTextView(TestCase):
         with self.assertRaises(Http404):
             TextView.parse_slug('the')
 
+        with self.assertRaises(Http404):
+            TextView.parse_slug(None)
+
     def test_get(self):
         with self.assertRaises(Http404):
             self.view(self.request)
