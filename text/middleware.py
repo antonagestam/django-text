@@ -64,19 +64,17 @@ class ToolbarMiddleware(object):
         content = force_text(
             response.content, encoding=django_settings.DEFAULT_CHARSET)
         bits = re.split(pattern, content, flags=re.IGNORECASE)
-
-        if len(bits) > 1:
-            toolbar = get_template('text/text_toolbar.html')
-            form = TextForm(prefix=settings.TOOLBAR_FORM_PREFIX)
-            context = {
-                'texts': texts,
-                'language': get_language(),
-                'form': form,
-                'inline_wrapper_class': settings.INLINE_WRAPPER_CLASS,
-            }
-            bits[-2] += render_template(
-                toolbar, context=context, request=request)
-            response.content = insert_before.join(bits)
-            if response.get('Content-Length', None):
-                response['Content-Length'] = len(response.content)
+        if len(bits) < 2:
+            return response
+        toolbar = get_template('text/text_toolbar.html')
+        form = TextForm(prefix=settings.TOOLBAR_FORM_PREFIX)
+        context = {
+            'texts': texts,
+            'language': get_language(),
+            'form': form,
+            'inline_wrapper_class': settings.INLINE_WRAPPER_CLASS,
+        }
+        bits[-2] += render_template(
+            toolbar, context=context, request=request)
+        response.content = insert_before.join(bits)
         return response

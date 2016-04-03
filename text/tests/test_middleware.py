@@ -3,10 +3,14 @@ from django.http import HttpRequest
 from django.template.base import Context, Template
 from django.template.response import SimpleTemplateResponse
 from django.utils.six import b
+from django.utils.encoding import force_text
+from django.contrib.auth.models import User
 
 from mock import patch
 
-from ..middleware import build_context, create_text, TextMiddleware, BackendTemplate
+from ..compat import BackendTemplate
+from ..middleware import (
+    build_context, create_text, TextMiddleware, ToolbarMiddleware)
 from ..models import Text
 from ..conf import settings
 
@@ -64,12 +68,13 @@ class TestCreateText(TestCase):
 
 
 class TestTextMiddleware(TestCase):
-    def process_template_response(self, name, default=''):
+    tag_template = '{%% load text %%}{%% text "%s" "%s" %%}'
+
+    def process_template_response(self, string_template):
         settings.TOOLBAR_INSTANT_UPDATE = False
         request = HttpRequest()
         context = Context({'request': request})
-        node = Template(
-            '{%% load text %%}{%% text "%s" "%s" %%}' % (name, default)).render(context)
+        node = Template(string_template).render(context)
         template = BackendTemplate(node)
         response = SimpleTemplateResponse(template, context)
         response.content = node
@@ -78,11 +83,57 @@ class TestTextMiddleware(TestCase):
 
     def test_default(self):
         content = "some test content"
-        rendered = self.process_template_response('node', content)
+        template = self.tag_template % ('node', content)
+        rendered = self.process_template_response(template)
         self.assertEqual(rendered.content, b(content))
 
     def test_db(self):
         text = Text(name='db_node', body='my awesome text', type=Text.TYPE_TEXT)
         text.save()
-        rendered = self.process_template_response(text.name, default='this is the default')
+        template = self.tag_template % (text.name, 'this is the default')
+        rendered = self.process_template_response(template)
         self.assertEqual(rendered.content, b(text.render()))
+
+    def test_no_tags(self):
+        rendered = self.process_template_response('')
+        self.assertEqual(rendered.content, b(''))
+
+
+class TestToolbarMiddleware(TestCase):
+    text_template = (
+        '<body>{% load text %}{% text "a_node" "html" %}</body>')
+    non_text_template = '<body></body>'
+    invalid_text_template = '{% load text %}{% text "a_node" "html" %}'
+
+    def process_template_response(self, string_template, user=None):
+        request = HttpRequest()
+        request.user = user
+        context = Context({'request': request})
+        template = BackendTemplate(Template(string_template).render(context))
+        response = SimpleTemplateResponse(template, context)
+        response.content = string_template
+        mw = ToolbarMiddleware()
+        return mw.process_response(request, response).render()
+
+    def test_process_response(self):
+        su = User.objects.create_superuser('adm', 'adm@example.com', 'pw')
+
+        # unauthenticated
+        resp = self.process_template_response(self.text_template)
+        self.assertNotIn(
+            'djtext_toolbar', force_text(resp.content, encoding='utf-8'))
+
+        # authenticated, no texts
+        resp = self.process_template_response(self.non_text_template, su)
+        self.assertNotIn(
+            'djtext_toolbar', force_text(resp.content, encoding='utf-8'))
+
+        # authenticated, no closing body tag
+        resp = self.process_template_response(self.invalid_text_template, su)
+        self.assertNotIn(
+            'djtext_toolbar', force_text(resp.content, encoding='utf-8'))
+
+        # authenticated
+        resp = self.process_template_response(self.text_template, su)
+        self.assertIn(
+            'djtext_toolbar', force_text(resp.content, encoding='utf-8'))
