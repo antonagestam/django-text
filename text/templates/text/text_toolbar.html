@@ -29,6 +29,10 @@
             </p>
         </div>
 
+        <p class="djtext_reload_page_notice">
+            You need to reload the page to see edits to this text.
+        </p>
+
         <div class="djtext_editor">
             <form id="djtext_form" method="post" action="{% url 'django_text:update_text' text_id=0 %}">
                 {% csrf_token %}

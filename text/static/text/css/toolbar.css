@@ -172,3 +172,7 @@
 .djtext_text_name {
     font-weight: bold;
 }
+
+.djtext_reload_page_notice {
+    display: none;
+}
