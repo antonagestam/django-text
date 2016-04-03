@@ -1,0 +1,54 @@
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django.contrib.auth.models import User
+
+from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions
+
+from text.models import Text
+
+
+class TestToolbar(StaticLiveServerTestCase):
+    @classmethod
+    def setUpClass(cls):
+        super(TestToolbar, cls).setUpClass()
+        cls.selenium = webdriver.PhantomJS()
+        cls.selenium.set_window_size(1280, 600)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.selenium.quit()
+        super(TestToolbar, cls).tearDownClass()
+
+    def setUp(self):
+        self.user = User.objects.create_superuser(
+            'adm', 'adm@example.com', 'pw')
+        self.user.save()
+
+    def login(self):
+        self.selenium.get(self.live_server_url + '/admin/')
+        login_page = self.selenium.find_element_by_tag_name('html')
+        self.selenium.find_element_by_id('id_username').send_keys('adm')
+        self.selenium.find_element_by_id('id_password').send_keys('pw')
+        self.selenium.find_element_by_css_selector('[type=submit]').click()
+        WebDriverWait(self.selenium, 3).until(
+            expected_conditions.staleness_of(login_page))
+
+    def test_edit_inline(self):
+        self.login()
+        self.selenium.get(self.live_server_url + '/')
+        self.selenium.find_element_by_id('djtext_toolbar_handle').click()
+        menu_li = self.selenium.find_element_by_css_selector(
+            '.djtext_menu ul li')
+        WebDriverWait(self.selenium, 3).until(
+            expected_conditions.visibility_of(menu_li))
+        menu_li.click()
+        self.assertEqual(
+            self.selenium.find_element_by_class_name('djtext_text_name').text,
+            "a_text_node_en-us")
+        textarea = self.selenium.find_element_by_class_name(
+            'djtext_editor_input')
+        textarea.clear()
+        textarea.send_keys('hello!')
+        self.selenium.find_element_by_class_name('djtext_submit').click()
+        self.assertEqual(Text.objects.get().render(), 'hello!')
