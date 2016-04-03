@@ -41,7 +41,7 @@
             'submit': '.djtext_submit',
             'menu': '.djtext_toolbar_menu',
             'tools': '.djtext_toolbar_menu_tools',
-            'reload_page_notice': '.djtext_reload_page_notice'
+            'reload_page_notice': '#djtext_reload_page_notice'
         }),
         language = toolbar.data('language'),
         url_get_pattern = toolbar.data('url-pattern'),
