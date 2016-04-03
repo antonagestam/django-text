@@ -9,7 +9,7 @@ register = template.Library()
 TEXT_TYPES = [t[0] for t in Text.TYPES]
 
 
-def get_placeholder(node_name, context, instant_update):
+def get_placeholder(node_name, instant_update):
     placeholder = "{{ text_placeholder_%s }}"
     if instant_update and settings.TOOLBAR_INSTANT_UPDATE:
         before, after = settings.INLINE_WRAPPER
@@ -57,7 +57,7 @@ def text(context, node_name, default_text, node_type='text', instant_update=True
     register_node(node_name, context)
     set_default(node_name, context, default_text)
     set_type(node_name, context, node_type)
-    return get_placeholder(node_name, context, bool(instant_update))
+    return get_placeholder(node_name, bool(instant_update))
 
 
 @simple_block_tag(register, name='blocktext', takes_context=True)
@@ -73,4 +73,4 @@ def blocktext(context, content, node_name, node_type='html', instant_update=True
     register_node(node_name, context)
     set_default(node_name, context, content)
     set_type(node_name, context, node_type)
-    return get_placeholder(node_name, context, bool(instant_update))
+    return get_placeholder(node_name, bool(instant_update))

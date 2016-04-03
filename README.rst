@@ -241,6 +241,7 @@ Install test dependencies.
 
 .. code:: shell
 
+    $ brew install phantomjs
     $ pip install -r test-requirements.txt
 
 Run tests.

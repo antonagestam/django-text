@@ -6,6 +6,7 @@ import sys
 
 from django.conf import settings
 from django import setup
+from django.test.runner import DiscoverRunner
 
 settings.configure(**{
     'DEBUG': True,
@@ -17,8 +18,11 @@ settings.configure(**{
         }
     },
     'INSTALLED_APPS': (
+        'django.contrib.admin',
         'django.contrib.auth',
         'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.staticfiles',
         'text',
     ),
     'TEMPLATE_DIRS': (
@@ -29,23 +33,19 @@ settings.configure(**{
         'django.core.context_processors.request',
     ),
     'MIDDLEWARE_CLASSES': (
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+
         'text.middleware.TextMiddleware',
         'text.middleware.ToolbarMiddleware',
     ),
     'ROOT_URLCONF': 'text.tests.urls',
+    'STATIC_URL': '/static/'
 })
 
-try:
-    # Django <= 1.8
-    from django.test.simple import DjangoTestSuiteRunner
-    test_runner = DjangoTestSuiteRunner(verbosity=1)
-except ImportError:
-    # Django >= 1.8
-    from django.test.runner import DiscoverRunner
-    test_runner = DiscoverRunner(verbosity=1)
 
 if __name__ == "__main__":
     setup()
-    failures = test_runner.run_tests(['text'])
+    failures = DiscoverRunner(verbosity=1).run_tests(['text'])
     if failures:
         sys.exit(failures)
