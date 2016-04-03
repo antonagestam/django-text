@@ -32,7 +32,7 @@ settings.configure(**{
         'text.middleware.TextMiddleware',
         'text.middleware.ToolbarMiddleware',
     ),
-    'ROOT_URLCONF': 'text.urls',
+    'ROOT_URLCONF': 'text.tests.urls',
 })
 
 try:

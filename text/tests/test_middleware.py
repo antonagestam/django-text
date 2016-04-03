@@ -3,10 +3,14 @@ from django.http import HttpRequest
 from django.template.base import Context, Template
 from django.template.response import SimpleTemplateResponse
 from django.utils.six import b
+from django.utils.encoding import force_text
+from django.contrib.auth.models import User
 
 from mock import patch
 
-from ..middleware import build_context, create_text, TextMiddleware, BackendTemplate
+from ..compat import BackendTemplate
+from ..middleware import (
+    build_context, create_text, TextMiddleware, ToolbarMiddleware)
 from ..models import Text
 from ..conf import settings
 
@@ -86,3 +90,37 @@ class TestTextMiddleware(TestCase):
         text.save()
         rendered = self.process_template_response(text.name, default='this is the default')
         self.assertEqual(rendered.content, b(text.render()))
+
+
+class TestToolbarMiddleware(TestCase):
+    text_template = (
+        '<body>{% load text %}{% text "a_node" "html" %}</body>')
+    non_text_template = '<body></body>'
+
+    def process_template_response(self, string_template, user=None):
+        request = HttpRequest()
+        request.user = user
+        context = Context({'request': request})
+        template = BackendTemplate(Template(string_template).render(context))
+        response = SimpleTemplateResponse(template, context)
+        response.content = string_template
+        mw = ToolbarMiddleware()
+        return mw.process_response(request, response).render()
+
+    def test_process_response(self):
+        su = User.objects.create_superuser('adm', 'adm@example.com', 'pw')
+
+        # unauthenticated
+        resp = self.process_template_response(self.text_template)
+        self.assertNotIn(
+            'djtext_toolbar', force_text(resp.content, encoding='utf-8'))
+
+        # authenticated, no texts
+        resp = self.process_template_response(self.non_text_template, su)
+        self.assertNotIn(
+            'djtext_toolbar', force_text(resp.content, encoding='utf-8'))
+
+        # authenticated
+        resp = self.process_template_response(self.text_template, su)
+        self.assertIn(
+            'djtext_toolbar', force_text(resp.content, encoding='utf-8'))
