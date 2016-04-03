@@ -268,7 +268,7 @@ bundled code.
 .. |Get downloads at https://pypi.python.org/pypi/django-text| image:: https://img.shields.io/pypi/dm/django-text.svg
    :target: https://pypi.python.org/pypi/django-text
 .. |See latest build status at https://travis-ci.org/antonagestam/django-text| image:: https://travis-ci.org/antonagestam/django-text.svg?branch=master
-   :target: https://circleci.com/gh/antonagestam/django-text/tree/master
+   :target: https://travis-ci.org/antonagestam/django-text
 .. |The django-text toolbar| image:: /docs/django-text.gif
 .. |Coverage| image:: https://coveralls.io/repos/antonagestam/django-text/badge.svg?branch=master&service=github
    :target: https://coveralls.io/r/antonagestam/django-text?branch=master
