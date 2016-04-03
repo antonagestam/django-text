@@ -68,12 +68,13 @@ class TestCreateText(TestCase):
 
 
 class TestTextMiddleware(TestCase):
-    def process_template_response(self, name, default=''):
+    tag_template = '{%% load text %%}{%% text "%s" "%s" %%}'
+
+    def process_template_response(self, string_template):
         settings.TOOLBAR_INSTANT_UPDATE = False
         request = HttpRequest()
         context = Context({'request': request})
-        node = Template(
-            '{%% load text %%}{%% text "%s" "%s" %%}' % (name, default)).render(context)
+        node = Template(string_template).render(context)
         template = BackendTemplate(node)
         response = SimpleTemplateResponse(template, context)
         response.content = node
@@ -82,14 +83,20 @@ class TestTextMiddleware(TestCase):
 
     def test_default(self):
         content = "some test content"
-        rendered = self.process_template_response('node', content)
+        template = self.tag_template % ('node', content)
+        rendered = self.process_template_response(template)
         self.assertEqual(rendered.content, b(content))
 
     def test_db(self):
         text = Text(name='db_node', body='my awesome text', type=Text.TYPE_TEXT)
         text.save()
-        rendered = self.process_template_response(text.name, default='this is the default')
+        template = self.tag_template % (text.name, 'this is the default')
+        rendered = self.process_template_response(template)
         self.assertEqual(rendered.content, b(text.render()))
+
+    def test_no_tags(self):
+        rendered = self.process_template_response('')
+        self.assertEqual(rendered.content, b(''))
 
 
 class TestToolbarMiddleware(TestCase):
