@@ -3,7 +3,7 @@ django-text
 
 |Join the chat at https://gitter.im/antonagestam/django-text|
 |Get downloads at https://pypi.python.org/pypi/django-text|
-|See latest build status at https://circleci.com/gh/antonagestam/django-text/tree/master|
+|See latest build status at https://travis-ci.org/antonagestam/django-text|
 |Coverage|
 
 Intuitive text editing for humans using Django.
@@ -267,7 +267,7 @@ bundled code.
    :target: https://gitter.im/antonagestam/django-text?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 .. |Get downloads at https://pypi.python.org/pypi/django-text| image:: https://img.shields.io/pypi/dm/django-text.svg
    :target: https://pypi.python.org/pypi/django-text
-.. |See latest build status at https://circleci.com/gh/antonagestam/django-text/tree/master| image:: https://circleci.com/gh/antonagestam/django-text.png?style=shield
+.. |See latest build status at https://travis-ci.org/antonagestam/django-text| image:: https://travis-ci.org/antonagestam/django-text.svg?branch=master
    :target: https://circleci.com/gh/antonagestam/django-text/tree/master
 .. |The django-text toolbar| image:: /docs/django-text.gif
 .. |Coverage| image:: https://coveralls.io/repos/antonagestam/django-text/badge.svg?branch=master&service=github
