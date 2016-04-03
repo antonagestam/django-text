@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 
 from text.models import Text
+from .utils import override_conf
 
 
 class TestToolbar(StaticLiveServerTestCase):
@@ -25,7 +26,7 @@ class TestToolbar(StaticLiveServerTestCase):
             'adm', 'adm@example.com', 'pw')
         self.user.save()
 
-    def login(self):
+    def authenticate(self):
         self.selenium.get(self.live_server_url + '/admin/')
         login_page = self.selenium.find_element_by_tag_name('html')
         self.selenium.find_element_by_id('id_username').send_keys('adm')
@@ -34,9 +35,8 @@ class TestToolbar(StaticLiveServerTestCase):
         WebDriverWait(self.selenium, 3).until(
             expected_conditions.staleness_of(login_page))
 
-    def test_edit_inline(self):
-        self.login()
-        self.selenium.get(self.live_server_url + '/')
+    def edit_set_text(self, text):
+        self.selenium.get(self.live_server_url + '/tag/')
         self.selenium.find_element_by_id('djtext_toolbar_handle').click()
         menu_li = self.selenium.find_element_by_css_selector(
             '.djtext_menu ul li')
@@ -49,6 +49,27 @@ class TestToolbar(StaticLiveServerTestCase):
         textarea = self.selenium.find_element_by_class_name(
             'djtext_editor_input')
         textarea.clear()
-        textarea.send_keys('hello!')
+        textarea.send_keys(text)
         self.selenium.find_element_by_class_name('djtext_submit').click()
+
+    @override_conf(TOOLBAR_INSTANT_UPDATE=False)
+    def test_edit(self):
+        self.authenticate()
+        self.edit_set_text('hello!')
+        self.assertTrue(
+            self.selenium.find_element_by_id(
+                'djtext_reload_page_notice').is_displayed())
         self.assertEqual(Text.objects.get().render(), 'hello!')
+
+    @override_conf(TOOLBAR_INSTANT_UPDATE=True)
+    def test_edit_instant(self):
+        self.authenticate()
+        self.edit_set_text('hola')
+        self.assertEqual(Text.objects.get().render(), 'hola')
+        self.assertNotIn(
+            'djtext_toggle',
+            self.selenium.find_element_by_id(
+                'djtext_toolbar').get_attribute('class'))
+        self.assertTrue(
+            self.selenium.find_element_by_css_selector(
+                '[data-text-name=a_text_node]').text, 'hola')

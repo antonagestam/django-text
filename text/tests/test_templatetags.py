@@ -3,7 +3,7 @@ from django.http import HttpRequest
 from django.template import Template, Context, TemplateSyntaxError
 
 from text.templatetags.text import set_default, set_type, register_node, get_placeholder
-from text.conf import settings
+from .utils import override_conf
 
 
 load_statement = "{% load text %}"
@@ -14,8 +14,8 @@ def get_context():
 
 
 class TestTextTag(TestCase):
+    @override_conf(TOOLBAR_INSTANT_UPDATE=False)
     def test_variable(self):
-        settings.TOOLBAR_INSTANT_UPDATE = False
         context = get_context()
         node_name = 'a_node'
         default_text = 'some default content :)'
@@ -28,8 +28,8 @@ class TestTextTag(TestCase):
         self.assertEqual(context['request'].text_type_register[node_name], node_type)
         self.assertIn(node_name, context['request'].text_register)
 
+    @override_conf(TOOLBAR_INSTANT_UPDATE=True)
     def test_with_instant_update(self):
-        settings.TOOLBAR_INSTANT_UPDATE = True
         context = get_context()
         node_name = 'a_node'
         default_text = 'some default content :)'
@@ -45,8 +45,8 @@ r_%s }}</span>""" % node_name
         self.assertEqual(context['request'].text_type_register[node_name], node_type)
         self.assertIn(node_name, context['request'].text_register)
 
+    @override_conf(TOOLBAR_INSTANT_UPDATE=False)
     def test_without_node_type(self):
-        settings.TOOLBAR_INSTANT_UPDATE = False
         context = get_context()
         node_name = 'a_node'
         default_text = 'this is my default text'
@@ -72,8 +72,8 @@ r_%s }}</span>""" % node_name
 
 
 class TestBlockTextTag(TestCase):
+    @override_conf(TOOLBAR_INSTANT_UPDATE=False)
     def test_without_node_type(self):
-        settings.TOOLBAR_INSTANT_UPDATE = False
         context = get_context()
         node_name = 'a_node'
         default_text = '<b>some</b> default content :)'
@@ -86,8 +86,8 @@ class TestBlockTextTag(TestCase):
         self.assertEqual(context['request'].text_type_register[node_name], node_type)
         self.assertIn(node_name, context['request'].text_register)
 
+    @override_conf(TOOLBAR_INSTANT_UPDATE=True)
     def test_with_node_type(self):
-        settings.TOOLBAR_INSTANT_UPDATE = True
         context = get_context()
         node_name = 'a_node'
         default_text = '<b>some</b> default content :)'
@@ -116,18 +116,18 @@ class TestBlockTextTag(TestCase):
 
 
 class TestGetPlaceholder(TestCase):
+    @override_conf(TOOLBAR_INSTANT_UPDATE=True)
     def test_get_wrapped_placeholder(self):
         name = 'name_of_text_node'
-        settings.TOOLBAR_INSTANT_UPDATE = True
         placeholder = get_placeholder(name, True)
         expected = """\
 <span data-text-name="name_of_text_node" class="dj_text_inline_wrapper">\
 {{ text_placeholder_name_of_text_node }}</span>"""
         self.assertEqual(placeholder, expected)
 
+    @override_conf(TOOLBAR_INSTANT_UPDATE=False)
     def test_get_placeholder(self):
         name = 'name_of_text_node'
-        settings.TOOLBAR_INSTANT_UPDATE = False
         placeholder = get_placeholder(name, True)
         expected = '{{ text_placeholder_name_of_text_node }}'
         self.assertEqual(placeholder, expected)
