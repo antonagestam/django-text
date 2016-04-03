@@ -38,6 +38,10 @@ class TestTextView(TestCase):
 
         self.request.user.is_staff = True
         self.request.user.is_superuser = True
+
+        with self.assertRaises(Http404):
+            self.view(self.request, text_slug='nonsense_en-us')
+
         response = self.view(self.request, text_slug='a_text_node_en-us')
         self.assertEqual(response.status_code, 200)
 
