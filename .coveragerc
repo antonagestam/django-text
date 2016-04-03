@@ -4,3 +4,4 @@ include =
 omit =
     */migrations/*
     */vendor/*
+    */tests/*
