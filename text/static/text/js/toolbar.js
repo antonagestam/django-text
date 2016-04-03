@@ -21,7 +21,8 @@
         start_element = $('.djtext_editor_start'),
         submit = $('.djtext_submit'),
         menu = $('.djtext_toolbar_menu', toolbar),
-        tools = $('.djtext_toolbar_menu_tools', menu);
+        tools = $('.djtext_toolbar_menu_tools', menu),
+        reload_page_notice = $('.djtext_reload_page_notice');
 
     function toggle_toolbar() {
         if (toolbar_active) {
@@ -38,7 +39,6 @@
 
     submit.click(function() {
         form.submit();
-        toggle_toolbar();
     });
 
     function init_toolbar_handles() {
@@ -74,6 +74,7 @@
         var menu_item = $(this),
             name = menu_item.data('name'),
             url = get_url(name);
+        reload_page_notice.hide();
         $.getJSON(url, function (response) {
             update_editor(response);
             toolbar.scrollTop(0);
@@ -92,8 +93,14 @@
                 'X-CSRFToken': csrf_input.val()
             },
             success: function () {
-                var selector = '.' + toolbar.data('inline-wrapper-class') + '[data-text-name="' + text_name + '"]';
-                $(selector).html(content_element.val());
+                var el = $('.' + toolbar.data('inline-wrapper-class') + '[data-text-name="' + text_name + '"]'),
+                    updatable = el.length > 0;
+                if (updatable) {
+                    el.html(content_element.val());
+                    toggle_toolbar();
+                } else {
+                    reload_page_notice.show();
+                }
             }
         });
     }
