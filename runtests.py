@@ -16,7 +16,11 @@ settings.configure(**{
             'NAME': ':memory:'
         }
     },
-    'INSTALLED_APPS': ('text', ),
+    'INSTALLED_APPS': (
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'text',
+    ),
     'TEMPLATE_DIRS': (
         os.path.join(os.path.dirname(__file__), 'text', 'templates'),
     ),
