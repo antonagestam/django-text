@@ -96,6 +96,7 @@ class TestToolbarMiddleware(TestCase):
     text_template = (
         '<body>{% load text %}{% text "a_node" "html" %}</body>')
     non_text_template = '<body></body>'
+    invalid_text_template = '{% load text %}{% text "a_node" "html" %}'
 
     def process_template_response(self, string_template, user=None):
         request = HttpRequest()
@@ -117,6 +118,11 @@ class TestToolbarMiddleware(TestCase):
 
         # authenticated, no texts
         resp = self.process_template_response(self.non_text_template, su)
+        self.assertNotIn(
+            'djtext_toolbar', force_text(resp.content, encoding='utf-8'))
+
+        # authenticated, no closing body tag
+        resp = self.process_template_response(self.invalid_text_template, su)
         self.assertNotIn(
             'djtext_toolbar', force_text(resp.content, encoding='utf-8'))
 
