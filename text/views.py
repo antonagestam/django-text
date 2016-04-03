@@ -1,3 +1,5 @@
+from collections import namedtuple
+
 from django.http import JsonResponse, Http404, HttpResponse
 from django.views.generic import DetailView, UpdateView
 
@@ -6,23 +8,32 @@ from .forms import TextForm
 from .conf import settings
 from .utils import can_access_toolbar
 
+Slug = namedtuple('Slug', 'language, name')
+
 
 class TextView(DetailView):
+    missing_node_exc = Http404("Found no text with that id")
     model = Text
 
-    def get_object(self, queryset=None):
-        slug = self.kwargs.get('text_slug', None)
+    @staticmethod
+    def parse_slug(slug):
+        if slug is None:
+            raise TextView.missing_node_exc
         parts = slug.split('_')
-        language = parts[-1]
-        name = '_'.join(parts[:-1])
+        if len(parts) < 2:
+            raise TextView.missing_node_exc
+        return Slug(language=parts[-1], name='_'.join(parts[:-1]))
+
+    def get_object(self, queryset=None):
+        slug = self.parse_slug(self.kwargs.get('text_slug', None))
         if queryset is None:
             queryset = self.get_queryset()
-        queryset = queryset.filter(name=name, language=language)
+        queryset = queryset.filter(name=slug.name, language=slug.language)
         try:
             # Get the single item from the filtered queryset
             return queryset.get()
         except queryset.model.DoesNotExist:
-            raise Http404("Found no text with that id")
+            raise TextView.missing_node_exc
 
     def get(self, request, *args, **kwargs):
         if not can_access_toolbar(request):
