@@ -260,7 +260,7 @@ Run tests with coverage.
 License
 -------
 
-Copyright (c) 2015 Anton Agestam. django-text is released under the MIT
+Copyright (c) 2015-2016 Anton Agestam. django-text is released under the MIT
 license. See the LICENSE file for more information and licenses for
 bundled code.
 
