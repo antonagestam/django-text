@@ -10,7 +10,6 @@ from django.test.runner import DiscoverRunner
 
 settings.configure(**{
     'DEBUG': True,
-    'TEMPLATE_DEBUG': True,
     'DATABASES': {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -25,14 +24,23 @@ settings.configure(**{
         'django.contrib.staticfiles',
         'text',
     ),
-    'TEMPLATE_DIRS': (
-        os.path.join(os.path.dirname(__file__), 'text', 'templates'),
-        os.path.join(os.path.dirname(__file__), 'text', 'tests', 'templates'),
-    ),
-    'TEMPLATE_CONTEXT_PROCESSORS': (
-        'django.contrib.auth.context_processors.auth',
-        'django.core.context_processors.request',
-    ),
+    'TEMPLATES': [
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'APP_DIRS': True,
+            'DIRS': (
+                os.path.join(os.path.dirname(__file__), 'text', 'templates'),
+                os.path.join(os.path.dirname(__file__), 'text', 'tests', 'templates'),
+            ),
+            'OPTIONS': {
+                'context_processors': [
+                    'django.contrib.auth.context_processors.auth',
+                    'django.template.context_processors.request',
+                ],
+                'debug': True,
+            },
+        },
+    ],
     'MIDDLEWARE_CLASSES': (
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',

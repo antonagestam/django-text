@@ -8,7 +8,6 @@ from django.contrib.auth.models import User
 
 from mock import patch
 
-from ..compat import BackendTemplate
 from ..middleware import (
     build_context, create_text, TextMiddleware, ToolbarMiddleware)
 from ..models import Text
@@ -75,7 +74,7 @@ class TestTextMiddleware(TestCase):
         request = HttpRequest()
         context = Context({'request': request})
         node = Template(string_template).render(context)
-        template = BackendTemplate(node)
+        template = Template(node)
         response = SimpleTemplateResponse(template, context)
         response.content = node
         mw = TextMiddleware()
@@ -109,7 +108,7 @@ class TestToolbarMiddleware(TestCase):
         request = HttpRequest()
         request.user = user
         context = Context({'request': request})
-        template = BackendTemplate(Template(string_template).render(context))
+        template = Template(Template(string_template).render(context))
         response = SimpleTemplateResponse(template, context)
         response.content = string_template
         mw = ToolbarMiddleware()
