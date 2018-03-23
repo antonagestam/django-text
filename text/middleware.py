@@ -10,7 +10,7 @@ from .conf import settings
 from .models import Text
 from .forms import TextForm
 from .utils import can_access_toolbar
-from .compat import BackendTemplate, render_template
+from .compat import render_template
 
 
 def build_context(texts, defaults, types):
@@ -40,7 +40,7 @@ def create_text(name, body, text_type):
 
 class TextMiddleware(object):
     def process_response(self, request, response):
-        template = BackendTemplate(Template(response.content))
+        template = Template(response.content)
         if not hasattr(request, 'text_register'):
             return response
         language = get_language()
